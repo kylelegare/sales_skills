@@ -1,6 +1,6 @@
 ---
 name: sales-account-research
-description: "Research a company and build an account dossier for sales preparation. Use when the user says 'research this company', 'look up [company]', 'what do we know about [account]', 'brief me on [account]', 'prep me for [company]', 'update the research on [account]', or mentions meeting with someone at a company they haven't researched yet. Also triggers on 'refresh the dossier' or 'update the dossier'. For financial institutions (credit unions, community banks), this skill layers on specialized FI data — use this instead of financial-institution-research."
+description: "Research a company and build an account dossier for sales preparation. Use when the user says 'research this company', 'look up [company]', 'prep me for [company]', 'update the research on [account]', or mentions meeting with someone at a company they haven't researched yet. Also triggers on 'refresh the dossier' or 'update the dossier'. For financial institutions (credit unions, community banks), this skill layers on specialized FI data. This skill only does external research — it does not read transcripts or extractions."
 ---
 
 # Sales Account Research
@@ -26,8 +26,8 @@ Build and maintain a living account dossier — the external research layer for 
 2. **Create the account slug** — lowercase, hyphenated (e.g., "acme-corp", "hubspot", "global-payments").
 
 3. **Check for existing dossier** — Look for `~/.claude/sales/<account-slug>/dossier.md`
-   - If it exists and the user said "brief me" or "what do we know" — skip to the **Brief Mode** section below.
    - If it exists and the user said "update" or "refresh" — skip to the **Update Mode** section below.
+   - If it exists and the user wants new research — ask whether to update the existing dossier or start fresh.
    - If it doesn't exist — continue with full research.
 
 4. **Create directory structure** if needed:
@@ -225,31 +225,6 @@ After writing the dossier, confirm:
 >
 > **Best conversation starters:**
 > - [The top 1-2 from the dossier]
-
----
-
-## Brief Mode
-
-When the user says "brief me on [account]" or "what do we know about [account]" and a dossier already exists:
-
-1. **Read the dossier** at `~/.claude/sales/<account-slug>/dossier.md`
-
-2. **Check for extractions** -- Look for any extraction files in `~/.claude/sales/<account-slug>/extractions/`
-
-3. **Synthesize a briefing** that pulls from BOTH:
-   - The dossier (external research)
-   - The extractions (what you've learned from conversations)
-
-   The briefing should cover:
-   - **Account snapshot** -- who they are, what's happening, key people
-   - **What we know from conversations** -- problems surfaced, stakeholders identified, where things stand (from extractions)
-   - **Open threads** -- things mentioned but not followed up on, gaps across extractions
-   - **Key quotes to remember** -- the buyer's own words, ready to reference
-   - **Commitment status** -- what they owe you, what you owe them
-   - **Questions for the next call** -- aggregated from extraction gap maps + research-informed questions
-
-4. **Check if the dossier is stale** -- If `last_researched` is more than 30 days ago, note it:
-   > "Note: External research is from [date]. Want me to refresh it?"
 
 ---
 
