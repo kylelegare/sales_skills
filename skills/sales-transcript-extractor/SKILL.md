@@ -42,13 +42,13 @@ When the user provides a transcript:
 
 1. Create the directory structure if it doesn't exist:
    ```
-   ~/.claude/sales/<account-slug>/transcripts/
-   ~/.claude/sales/<account-slug>/extractions/
+   ~/.agents/sales/<account-slug>/transcripts/
+   ~/.agents/sales/<account-slug>/extractions/
    ```
 
 2. Save the raw transcript exactly as provided:
    ```
-   ~/.claude/sales/<account-slug>/transcripts/YYYY-MM-DD-<call-type>.md
+   ~/.agents/sales/<account-slug>/transcripts/YYYY-MM-DD-<call-type>.md
    ```
    If a file with that name already exists (multiple calls on the same day of the same type), append a number: `YYYY-MM-DD-<call-type>-2.md`
 
@@ -127,7 +127,7 @@ raw_transcript: ../transcripts/[matching filename]
 
 Save to:
 ```
-~/.claude/sales/<account-slug>/extractions/YYYY-MM-DD-<call-type>.md
+~/.agents/sales/<account-slug>/extractions/YYYY-MM-DD-<call-type>.md
 ```
 
 ### Phase 5: Feedback Summary
@@ -172,8 +172,8 @@ After outputting the feedback summary, confirm where files were saved:
 
 > **Extraction complete.**
 >
-> Raw transcript: `~/.claude/sales/<account>/transcripts/<filename>`
-> Extraction: `~/.claude/sales/<account>/extractions/<filename>`
+> Raw transcript: `~/.agents/sales/<account>/transcripts/<filename>`
+> Extraction: `~/.agents/sales/<account>/extractions/<filename>`
 >
 > [Feedback summary output here]
 
@@ -183,7 +183,7 @@ After outputting the feedback summary, confirm where files were saved:
 
 When the user requests a deeper analysis of a previously processed transcript ("deep dive on the Acme call", "re-process the last transcript", "I think we missed something in the discovery call"):
 
-1. **Find the transcript** — Look in `~/.claude/sales/` for the matching account and call. If ambiguous, ask which call to re-process.
+1. **Find the transcript** — Look in `~/.agents/sales/` for the matching account and call. If ambiguous, ask which call to re-process.
 
 2. **Read both files** — Read the raw transcript AND the existing extraction to understand what was already captured.
 
@@ -197,7 +197,7 @@ When the user requests a deeper analysis of a previously processed transcript ("
 
 4. **Produce a supplementary extraction** — Don't replace the original. Save as:
    ```
-   ~/.claude/sales/<account-slug>/extractions/YYYY-MM-DD-<call-type>-deep-dive.md
+   ~/.agents/sales/<account-slug>/extractions/YYYY-MM-DD-<call-type>-deep-dive.md
    ```
 
    Use the same item format. In the "Why it matters" field, note why the standard pass may have missed this — was it subtle, buried in a tangent, or only meaningful in context?

@@ -25,14 +25,14 @@ Build and maintain a living account dossier — the external research layer for 
 
 2. **Create the account slug** — lowercase, hyphenated (e.g., "acme-corp", "hubspot", "global-payments").
 
-3. **Check for existing dossier** — Look for `~/.claude/sales/<account-slug>/dossier.md`
+3. **Check for existing dossier** — Look for `~/.agents/sales/<account-slug>/dossier.md`
    - If it exists and the user said "update" or "refresh" — skip to the **Update Mode** section below.
    - If it exists and the user wants new research — ask whether to update the existing dossier or start fresh.
    - If it doesn't exist — continue with full research.
 
 4. **Create directory structure** if needed:
    ```
-   ~/.claude/sales/<account-slug>/
+   ~/.agents/sales/<account-slug>/
    ```
    (The transcripts/ and extractions/ subdirectories are created by the extraction skill when needed.)
 
@@ -151,9 +151,9 @@ Don't go deep. Stakeholder intelligence builds over time through conversations, 
 
 **For Banks (FDIC-regulated):**
 - Use FDIC BankFind Suite (https://banks.data.fdic.gov/) for asset size, charter type, regulator, location
-- If a script exists at `~/.claude/skills/financial-institution-research/scripts/fdic_api.py`, use it:
+- If a script exists at `~/.agents/skills/financial-institution-research/scripts/fdic_api.py`, use it:
   ```bash
-  python3 ~/.claude/skills/financial-institution-research/scripts/fdic_api.py "[Bank Name]"
+  python3 ~/.agents/skills/financial-institution-research/scripts/fdic_api.py "[Bank Name]"
   ```
 
 **For Credit Unions (NCUA-regulated):**
@@ -168,7 +168,7 @@ Don't go deep. Stakeholder intelligence builds over time through conversations, 
 
 ### Phase 3: Write the Dossier
 
-Save the dossier to `~/.claude/sales/<account-slug>/dossier.md` with this structure:
+Save the dossier to `~/.agents/sales/<account-slug>/dossier.md` with this structure:
 
 ```markdown
 ---
@@ -224,7 +224,7 @@ After writing the dossier, confirm:
 
 > **Dossier created for [Company Name].**
 >
-> Saved to: `~/.claude/sales/<account-slug>/dossier.md`
+> Saved to: `~/.agents/sales/<account-slug>/dossier.md`
 >
 > **Key findings:**
 > - [2-3 most significant or actionable findings]

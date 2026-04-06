@@ -24,7 +24,7 @@ Generate a consultant-grade company profile from public sources — your website
 1. **Get the company URL** — from the user's request, or ask:
    > "What's your company website? I'll analyze it to build your profile."
 
-2. **Check for existing profile** — Look for `~/.claude/sales/company-profile.md`
+2. **Check for existing profile** — Look for `~/.agents/sales/company-profile.md`
    - If it exists and the user wants to update — skip to **Update Mode** below.
    - If it doesn't exist — continue with full analysis.
 
@@ -95,7 +95,7 @@ Search for how real buyers and users describe the product — not marketing, rea
 
 Synthesize everything into a structured profile. This is where the skill earns its value — don't just summarize what you read. Analyze it through the lens of "what does an AE need to sell this effectively?"
 
-Save to `~/.claude/sales/company-profile.md`:
+Save to `~/.agents/sales/company-profile.md`:
 
 ```markdown
 ---
@@ -201,7 +201,7 @@ After writing the profile:
 
 > **Company profile created for [Company Name].**
 >
-> Saved to: `~/.claude/sales/company-profile.md`
+> Saved to: `~/.agents/sales/company-profile.md`
 >
 > **Soundbite:**
 > [The 4-sentence soundbite]
@@ -225,7 +225,7 @@ After writing the profile:
 
 When the user says "update my company profile" or "refresh the profile":
 
-1. **Read the existing profile** at `~/.claude/sales/company-profile.md`
+1. **Read the existing profile** at `~/.agents/sales/company-profile.md`
 
 2. **Determine what to update:**
    - If the user provided new material (case study, battlecard, pitch deck) — incorporate it into the relevant sections

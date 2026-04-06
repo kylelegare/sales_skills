@@ -22,7 +22,7 @@ Possible future skills informed by Orlob's discovery and closing courses, Nasral
 
 **Dependencies:** Discovery methodology reference doc, deal review, dossier, company profile
 
-**Architecture:** Skill at `~/.claude/skills/sales-call-prep/SKILL.md` with a reference doc at `references/discovery-methodology.md`
+**Architecture:** Skill at `~/.agents/skills/sales-call-prep/SKILL.md` with a reference doc at `references/discovery-methodology.md`
 
 ---
 
@@ -38,7 +38,7 @@ Possible future skills informed by Orlob's discovery and closing courses, Nasral
 - The discovery prompter structure (5-part pain story + pass-the-torch)
 - Inbound vs outbound opening technique decision tree
 
-**Location:** `~/.claude/skills/sales-call-prep/references/discovery-methodology.md`
+**Location:** `~/.agents/skills/sales-call-prep/references/discovery-methodology.md`
 
 ---
 
@@ -60,7 +60,7 @@ Possible future skills informed by Orlob's discovery and closing courses, Nasral
 
 **Output:** Closing motion checklist, recommended questions, risk spot-checks, suggested next step prescription
 
-**Architecture:** Skill at `~/.claude/skills/sales-closing-motion/SKILL.md`, possibly with a reference doc for the closing methodology
+**Architecture:** Skill at `~/.agents/skills/sales-closing-motion/SKILL.md`, possibly with a reference doc for the closing methodology
 
 ---
 

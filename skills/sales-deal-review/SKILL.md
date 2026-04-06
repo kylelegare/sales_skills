@@ -138,11 +138,11 @@ These are not a sales framework. They're the universal evidence categories that 
 1. **Identify the account** — from the user's request, or ask:
    > "Which account do you want to review?"
 
-2. **Read all extractions** — Load every file from `~/.claude/sales/<account-slug>/extractions/`. These are the evidence base.
+2. **Read all extractions** — Load every file from `~/.agents/sales/<account-slug>/extractions/`. These are the evidence base.
 
-3. **Read the dossier** (if it exists) — Load `~/.claude/sales/<account-slug>/dossier.md` for external context. The dossier provides background but is NOT evidence of buyer intent — only buyer statements from extractions count as evidence.
+3. **Read the dossier** (if it exists) — Load `~/.agents/sales/<account-slug>/dossier.md` for external context. The dossier provides background but is NOT evidence of buyer intent — only buyer statements from extractions count as evidence.
 
-4. **Read the company profile** (if it exists) — Load `~/.claude/sales/company-profile.md` for context on what you sell. This helps assess whether buyer-stated problems align with your value chain, but the company profile does NOT substitute for buyer evidence.
+4. **Read the company profile** (if it exists) — Load `~/.agents/sales/company-profile.md` for context on what you sell. This helps assess whether buyer-stated problems align with your value chain, but the company profile does NOT substitute for buyer evidence.
 
 ### Phase 2: Score Each Dimension
 
