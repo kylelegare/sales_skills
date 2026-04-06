@@ -24,49 +24,57 @@ Score deal health based on what buyers have actually said — not what the AE ho
 These are not a sales framework. They're the universal evidence categories that every framework draws from.
 
 ### 1. Problem
-**What we're scoring:** Has the buyer articulated a specific problem they need to solve? Is it a surface complaint or a root cause? Is it their words or our projection?
+**What we're scoring:** Has the buyer articulated a specific business problem — a suffering metric the decision maker owns? Is it a surface complaint or a root cause? Is it their words or our projection? Does it pass the No Logo Test?
+
+**The No Logo Test (Orlob):** If you removed the account name from your problem description, could you identify which deal this is? A problem description so unique and detailed it could only apply to one account = strong discovery. A generic description that could describe any company = weak discovery. Rate 1-5.
 
 **Strong evidence looks like:**
-- Buyer describes the problem in their own words (direct quote)
-- Problem has been validated by multiple stakeholders
-- Root cause has been explored, not just symptoms
-- Buyer connects the problem to business outcomes
+- Buyer describes a specific suffering metric in their own words (direct quote) — e.g., "close rates dropped from 25% to 20%"
+- Problem passes the No Logo Test (unique, detailed, account-specific)
+- Root causes have been explored — buyer has articulated WHY the problem is happening
+- Problem is "above the line" — it's in the decision maker's top priorities, not a brush fire
+- Buyer connects the problem to business outcomes they own
 
 **Weak evidence looks like:**
 - Seller described the problem and buyer said "yeah"
-- Problem is generic ("we need to be more efficient")
-- Only one person has mentioned it
+- Problem is generic ("we need to be more efficient") — fails the No Logo Test
+- Only root causes or symptoms surfaced, no connection to a suffering business metric
+- Problem may be real but "below the line" — not in the decision maker's top 3-5 priorities
 - Problem is assumed from industry trends, not stated by the buyer
 
 ### 2. Impact
-**What we're scoring:** Can we quantify what this problem costs them? In dollars, time, risk, or opportunity? Is the number from the buyer or from us?
+**What we're scoring:** Can we quantify what this problem costs them? Do we have the "metric that matters" and a "cost of inaction"? Is the number from the buyer or from us? Have negative ripple effects been explored?
 
 **Strong evidence looks like:**
-- Buyer provides specific numbers ("this costs us $2M a year in churn")
-- Impact is tied to a metric they're already tracking
-- Multiple types of impact identified (revenue + time + risk)
+- Buyer provides specific numbers ("this costs us $2M a year in churn") — the "metric that matters" is identified
+- Cost of inaction is quantified on a monthly basis (what it costs them every month they don't act)
+- Negative impact / ripple effects explored — second-order consequences beyond the primary problem (e.g., problem is declining close rates → negative impact is higher customer acquisition costs, team morale issues, investor concern)
 - Impact has been validated by someone with budget authority
+- Multiple types of impact identified (revenue + time + risk + downstream effects)
 
 **Weak evidence looks like:**
 - Seller projected ROI and buyer didn't push back
 - Impact is directional but not quantified ("it's a big problem")
-- Only one dimension of impact explored
+- Only the primary problem explored — no ripple effects or second-order consequences surfaced
 - Impact comes from a case study, not from the buyer's own situation
+- No cost of inaction — buyer can rationalize delaying indefinitely
 
 ### 3. Urgency
-**What we're scoring:** Is there a forcing function — a date, event, or consequence that makes "later" unacceptable? Or is this a nice-to-have with no deadline?
+**What we're scoring:** Is there a forcing function — a date, event, or consequence that makes "later" unacceptable? Or is this a nice-to-have with no deadline? Is the timeline buyer-driven or seller-driven?
 
 **Strong evidence looks like:**
-- Buyer names a specific date or event driving the timeline ("we need this before Q3 board meeting")
+- Buyer names a specific date or event driving the timeline ("we need this before Q3 board meeting") — buyer-driven urgency
 - Consequence of inaction is articulated ("if we don't fix this by renewal, we lose the account")
-- Timeline is buyer-driven, not seller-driven
+- Cost of inaction is quantified monthly — the buyer feels the bleed every period that passes
 - Urgency has been confirmed in multiple conversations
+- The problem is "above the line" — in the decision maker's top priorities, not a brush fire they're managing around
 
 **Weak evidence looks like:**
-- Seller proposed a timeline and buyer agreed
+- Seller proposed a timeline and buyer agreed — seller-driven urgency is not real urgency
 - Buyer said "soon" or "this quarter" without a specific driver
-- No consequence of inaction articulated
-- Timeline keeps slipping across conversations
+- No consequence of inaction articulated — they can live with this indefinitely
+- Timeline keeps slipping across conversations (a red flag: urgency may be manufactured)
+- Problem may be real but it's a "brush fire" — the executive is a park ranger managing thousands of acres, and this isn't a raging forest fire
 
 ### 4. Approach
 **What we're scoring:** Does the buyer believe our approach is the right way to solve their problem? Have they seen how it works and connected it to their situation? Or are we still one of many options?
@@ -89,33 +97,39 @@ These are not a sales framework. They're the universal evidence categories that 
 **Strong evidence looks like:**
 - Multiple stakeholders identified by name and role
 - We know who makes the final decision (and it's not just our contact)
-- Champion has been tested — they've done something for us (shared internal docs, set up meetings, advocated internally)
+- Champion has been tested — they've done something for us that cost them political capital (shared internal docs, set up meetings with leadership, advocated in internal meetings, pushed back on procurement)
 - Potential blockers identified and a plan exists to address them
 - Organizational dynamics are understood (who reports to whom, who has budget authority)
+- We have access to the economic buyer (the person who owns the suffering metric), not just an end-user or evaluator
 
 **Weak evidence looks like:**
-- Only one contact in the account
+- Only one contact in the account — single-threaded
 - We assume our contact is the decision-maker because they said so
-- Champion hasn't been tested — they're friendly but haven't acted on our behalf
-- No visibility into who else is involved
+- Champion hasn't been tested — they're friendly but haven't taken any action on our behalf. Friendliness is not championship.
+- No visibility into who else is involved or who might block
 - Procurement, legal, or IT involvement is unknown
+- No one on the buyer side has "sold internally" for us — we're doing all the selling ourselves
 
 ### 6. Process
-**What we're scoring:** Do we know how they buy? What steps remain? What could derail it? Or are we guessing at their internal process?
+**What we're scoring:** Do we know how they buy? What steps remain between now and signature? Who's involved in each step? What could derail it? Or are we guessing at their internal process?
 
 **Strong evidence looks like:**
-- Buyer has described their evaluation/purchasing process
-- Specific next steps are committed with dates and owners
+- Buyer has described the full series of steps between now and signature (not just the next one — you asked twice)
+- For each step: we know WHO is involved and HOW LONG it takes
 - We know what approvals are needed and from whom
-- Buyer has shared what happened with previous vendor evaluations
-- Paper process requirements are known (security review, legal, procurement)
+- Paper process is mapped — legal, security review, procurement, who signs, how many signatures
+- Specific next steps are committed with dates and owners — and there's a backstop meeting on the calendar
+- We've proactively spot-checked for common risks the buyer didn't mention (legal review, procurement, uncovered stakeholders)
+- We know whether we're vendor of choice (if competitive)
 
 **Weak evidence looks like:**
-- Next steps are vague ("we'll circle back")
+- Next steps are vague ("we'll circle back") — open loops with nothing scheduled
+- Only the next step is known, not the full series after that
 - No visibility into internal approval process
 - Commitments are one-sided (seller commits, buyer doesn't)
-- We don't know who else they're evaluating
-- No understanding of procurement or legal requirements
+- Legal, procurement, or security review hasn't been discussed — could surprise us
+- We don't know who else they're evaluating or whether we're vendor of choice
+- No micro-commitment from champion to re-engage if things go sideways during handoff
 
 ## Workflow
 

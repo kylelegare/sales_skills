@@ -204,7 +204,13 @@ sources_checked:
 [Only if applicable -- FDIC/NCUA data, charter info, field of membership, service area.]
 
 ## Conversation Starters
-[2-4 specific, research-backed things you could open a conversation with. Not generic. Tied to what you found above.]
+[2-4 specific, research-backed openers. Each follows the context-led question format: an observation from research + why it's relevant + a question that ties to a problem you solve. Not generic. Tied to what you found above.]
+
+Format each as:
+- **Observation:** [What you noticed in your research -- a press release, earnings trend, hiring signal, industry shift]
+- **Opener:** "[Name], I noticed [observation]. [Why it's relevant or 'I'll make it clear why this matters in a second']. [Question that ties to a problem area you solve]."
+
+Example: "Emily, I noticed you just announced expansion into the enterprise segment -- you're hiring 12 AEs and a new VP of Sales. Companies at that inflection point often find that what worked for SMB motion doesn't translate to enterprise. How are you thinking about that transition?"
 
 ## Questions to Explore
 [3-5 questions worth asking based on the research -- gaps in your understanding, signals that could indicate a fit, things you want to validate.]

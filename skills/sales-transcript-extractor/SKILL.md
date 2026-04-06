@@ -71,19 +71,28 @@ Read through the transcript and extract every meaningful piece of information. F
 **Buyer language:** [Specific terminology, codenames, internal project names, or phrasing the buyer used that differs from standard/seller language. Omit if nothing notable.]
 ```
 
-**Topic tag starter set:** `problem`, `stakeholder`, `timeline`, `commitment`, `criteria`, `competition`, `outcome`, `process`, `risk`, `context`
+**Topic tag starter set:** `problem`, `root-cause`, `negative-impact`, `stakeholder`, `timeline`, `commitment`, `criteria`, `competition`, `outcome`, `process`, `risk`, `context`
 
 - Use multiple tags when an item spans topics (e.g., a stakeholder mention that also reveals a risk)
 - Add organic tags when something doesn't fit the starter set — but keep them descriptive, not analytical
 - Tags describe what *kind* of information this is, not what it *means* for the deal
+
+**Classifying buyer statements (Orlob's three buckets):**
+When tagging items, distinguish between these three types — the classification matters for downstream skills:
+- **Business problem** → tag `problem` — A metric that is suffering that the decision maker owns. Always has a measurable metric attached (e.g., "close rates dropped from 25% to 20%", "pipeline coverage has dropped by 50%").
+- **Root cause** → tag `root-cause` — A symptom or behavior that leads to the suffering metric. If you "peel back the onion," a root cause leads to a business problem (e.g., "reps give terrible demos" → close rates suffer, "data is scattered across spreadsheets" → low cross-sell rates).
+- **Desired solution** → tag `criteria` — The buyer expresses needs in a way that implies taking action. The verb or implied action is the giveaway (e.g., "we need better sales training", "we need to unify our customer experience").
 
 **Extraction guidelines:**
 
 - **Order items chronologically** — follow the conversation flow. This preserves context and makes it easy to trace back to the raw transcript.
 - **Prioritize buyer statements over seller statements** — Extract what the buyer revealed. Only extract seller statements when they contain a commitment ("I'll send you the ROI model by Friday"), a teaching moment that landed ("Oh, I never thought of it that way"), or context needed to understand a buyer response.
 - **Distinguish pain from injury** — When extracting problem statements, note whether the problem is localized pain (one person feels it, they've been living with it) or widespread injury (debilitating, multiple people affected, must be fixed). This is not a separate field — just include it naturally in the "Why it matters" note when relevant.
+- **Separate problems from their ripple effects** — When the buyer describes consequences, costs, or downstream effects of a problem (not the problem itself), tag it `negative-impact`. These are the second-order effects that build urgency and justify cost. Example: the problem is "declining close rates," the negative impact is "higher customer acquisition costs" or "sales team morale issues." This distinction matters because negative impact is what gets executive attention and budget.
 - **Capture commitment asymmetry** — When extracting commitments, note whether the commitment is from the buyer or the seller. Track both. A pattern where the seller has many commitments and the buyer has few is a signal of weak champion engagement.
 - **Don't over-extract** — If the buyer says "yeah, that sounds right" in response to a summary, that's not a separate extraction item. It confirms the prior statement. If the buyer says "actually, it's more like $3M, not $2M" — that's a correction worth extracting.
+- **Flag buying signals** — When the buyer signals firm intent to buy, tag as `commitment` and note in "Why it matters." Five signals to watch for: (1) a verbal ("we're ready to move forward"), (2) champion mentions recommending to leadership, (3) requesting contracts/MSAs/paperwork, (4) requesting customer references, (5) active price negotiation. These shift the deal from evaluation to decision phase.
+- **Note seller-driven vs buyer-driven timelines** — When extracting timeline items, note in "Why it matters" whether the timeline is buyer-driven (they named a date, event, or consequence) or seller-driven (the seller proposed it and the buyer agreed). Buyer-driven urgency is real; seller-driven urgency is often wishful.
 
 ### Phase 4: Write Extraction File
 
@@ -139,16 +148,18 @@ The feedback summary is:
 - [If something contradicts prior information from this account, flag it]
 
 **Gaps — questions for the next call:**
-Compare what was extracted against this lightweight checklist. For any area with no extracted items, surface it as a question — not as criticism, but as a prompt for the next conversation:
+Compare what was extracted against this checklist, informed by Orlob's discovery depth chain. For any area with no extracted items, surface it as a question — not as criticism, but as a prompt for the next conversation:
 
-- **Problems:** Did we surface specific problems with quantified impact? Or are we still at surface level?
-- **Stakeholders:** Do we know who's involved in the decision? Who has power? Who might block?
-- **Timeline:** Is there a specific date or event driving urgency? Or is timing vague?
-- **Commitments:** Did both sides commit to next steps? Or is it one-sided?
-- **Decision criteria:** Do we know what they need in a solution? What they're evaluating against?
-- **Competition:** Are they looking at alternatives? Is the status quo the real competitor?
+- **Business problem:** Did we surface a specific suffering metric the decision maker owns? Or are we at root-cause level without connecting to the business outcome? (Would this pass Orlob's No Logo Test — is the problem description unique to this account, or could it describe any company?)
+- **Root causes:** Do we know WHY the business problem is happening? Has the buyer articulated perceived root causes, or are we assuming?
+- **Negative impact:** Do we know the ripple effects — cost of inaction, downstream consequences, who else is affected? Or do we only have the problem without its second-order effects?
+- **Stakeholders:** Do we know who's involved in the decision? Who has power? Who might block? Has any champion been tested (acted on our behalf), or are they just friendly?
+- **Timeline:** Is there a specific date or event driving urgency? Is the timeline buyer-driven or seller-driven?
+- **Commitments:** Did both sides commit to next steps? Or is it one-sided (seller commits, buyer doesn't)?
+- **Decision criteria / future state:** Do we know what they need in a solution? Did the buyer articulate buying criteria, or are we guessing?
+- **Competition:** Are they looking at alternatives? Is the status quo the real competitor? Do we know if we're vendor of choice?
 - **Budget:** Is there funding allocated, or does it need approval?
-- **Outcomes:** Do we know what success looks like for them — both the company and the individual?
+- **Process:** Do we know how they buy — legal, procurement, paper process, approvals needed?
 
 Only surface gaps that are reasonable to expect given the call context. A first discovery call won't have budget details — don't flag that. A third call with no stakeholder map beyond one contact — flag that.
 
