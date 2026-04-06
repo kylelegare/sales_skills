@@ -151,3 +151,40 @@ Possible future skills informed by Orlob's discovery and closing courses, Nasral
 6. **Demo prep** — Important but less frequent than call prep.
 7. **Discovery prompter generator** — Nice to have. AEs tend to develop these organically.
 8. **Objection handler** — Nice to have. More of a coaching tool.
+
+---
+
+## Infrastructure Ideas (Revisit After Skills Are Built)
+
+Lessons from https://github.com/coreyhaines31/marketingskills — a 34-skill marketing plugin with 19K stars. Good patterns to steal once we have enough skills built and tested on real deals. Don't invest in this infrastructure until skills have stabilized through real use.
+
+### Evals
+- Each skill gets an `evals/evals.json` with 5-7 test cases
+- Format: `{ prompt, expected_output, assertions[] }` — simple JSON, no fancy infra
+- Assertions are specific checkable claims ("Checks for company-profile.md", "Tags buyer statements as root-cause when appropriate")
+- Run with LLM-as-judge — give it the prompt + skill, get output, check assertions
+- **Boundary evals** — at least one eval per skill tests that out-of-scope requests get redirected to the right skill (e.g., extractor doesn't try to write follow-up emails)
+
+### References Directory
+- Keep SKILL.md under ~500 lines as the workflow
+- Deep knowledge goes in `references/` — loaded on demand
+- Natural candidates: discovery methodology (Orlob's 4-phase framework), closing motion checklist, question templates, the root cause map exercise
+- SKILL.md says "load references/discovery-methodology.md" when it needs the depth
+
+### Hub Skill Pattern
+- Their `product-marketing-context` is checked by every other skill as step 1
+- Our `company-profile` is the equivalent but not every skill explicitly checks for it yet
+- Consider making the check explicit: every skill's Phase 1 includes "load company profile if it exists"
+
+### Auto-Sync Infrastructure
+- GitHub Action + script keeps plugin manifest and README in sync when skills change
+- Worth it once we have 10+ skills, not before
+
+### Cross-Agent Compatibility
+- They use `.agents/skills/` instead of `.claude/skills/` so skills work in Codex, Cursor, Windsurf
+- Consider this if/when packaging as a plugin for distribution
+- For now, `.claude/skills/` is fine — we're building for Kyle first
+
+### Validation
+- They have a bash script that checks: frontmatter format, description length, trigger phrases present, SKILL.md under 500 lines, name matches directory
+- Nice guardrail once you have contributors or are publishing
