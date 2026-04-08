@@ -1,6 +1,6 @@
 ---
 name: sales-account-research
-description: "Research a company and build an account dossier for sales preparation. Use when the user says 'research this company', 'look up [company]', 'prep me for [company]', 'update the research on [account]', or mentions meeting with someone at a company they haven't researched yet. Also triggers on 'refresh the dossier' or 'update the dossier'. For financial institutions (credit unions, community banks), this skill layers on specialized FI data. This skill only does external research — it does not read transcripts or extractions."
+description: "Researches a company from public sources and builds an account dossier for sales preparation. Triggers on 'research [company]', 'look up [company]', 'prep me for [company]', 'update the dossier', or mentions of upcoming meetings at unresearched companies. Layers on specialized FI data for credit unions and community banks. External research only — does not read transcripts or extractions. For transcript processing, see sales-transcript-extractor. For deal scoring, see sales-deal-review."
 ---
 
 # Sales Account Research
@@ -61,11 +61,9 @@ The most important research area. Changes create urgency and open doors. This is
 - Restructuring — layoffs or reorgs signal cost pressure and changing priorities.
 - Product launches or market expansion — signals where they're placing bets.
 
-**Why it matters for selling:** Every change is a potential "because of" in your soundbite. A missed quarter means urgency. A new CRO means the old approach failed. A big acquisition means integration headaches.
-
 #### 2.2 What Are Their Executives Publicly Saying Matters?
 
-Their leaders tell you their priorities — in their own language. This is where you find internal codenames and strategic themes that make your messaging sound like it came from inside.
+Their leaders tell you their priorities — in their own language. Internal codenames and strategic themes make your messaging sound like it came from inside.
 
 **Search queries to run:**
 - `"[Company Name]" CEO OR CRO OR CFO earnings call transcript [current year]` (public companies)
@@ -79,8 +77,6 @@ Their leaders tell you their priorities — in their own language. This is where
 - Metrics they're tracking publicly (NRR, ARR growth rate, customer count targets)
 - Problems they've acknowledged publicly
 - Their own language for their priorities — the exact phrases executives use
-
-**Why it matters for selling:** When you use their internal language in your messaging, it passes the forwarding test. A champion can send your business case to the CFO and it sounds like it was written by someone inside.
 
 #### 2.3 What Are They Investing In?
 
@@ -96,8 +92,6 @@ Job postings are the most honest signal of a company's priorities. They can't fa
 - Tech stack mentioned in job descriptions (tells you what they're using and what they might replace)
 - Are they building internally something you could sell them? (A posting for "data engineer to build internal analytics pipeline" = they're trying to DIY what you sell)
 - Seniority of open roles (hiring a VP means they don't have one — that's a gap you can sell into)
-
-**Why it matters for selling:** If they're hiring 5 SDRs, they're investing in pipeline generation. If they're posting for a RevOps director, they have an operational gap. Job postings reveal problems they're actively spending money to solve.
 
 #### 2.4 Company Overview
 
@@ -130,8 +124,6 @@ Only what's relevant to YOUR conversation with them.
 - Regulatory changes they have to respond to
 - Competitive moves that pressure them
 - Technology shifts in their space
-
-**Why it matters for selling:** Industry context lets you show up informed. "I noticed [trend] is affecting companies like yours" is a better opener than "tell me about your challenges."
 
 #### 2.6 Key People (Lightweight)
 

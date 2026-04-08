@@ -1,6 +1,6 @@
 ---
 name: sales-transcript-extractor
-description: "Process sales call transcripts into structured, queryable extractions. Use when the user pastes a transcript, says 'process this transcript', 'extract from this call', 'I just had a call', 'debrief this transcript', 'here's the transcript', 'extract this', or shares meeting notes from Granola or Gong. Also use when the user says 'deep dive' on a previous call or asks to re-process a transcript more thoroughly."
+description: "Processes sales call transcripts into structured, queryable extractions with buyer quotes, topic tags, and gap analysis. Triggers on pasted transcripts, 'process this transcript', 'extract from this call', 'debrief this transcript', 'here's the transcript', or shared Granola/Gong notes. Also handles 'deep dive' re-processing. For external company research, see sales-account-research. For deal health scoring, see sales-deal-review."
 ---
 
 # Sales Transcript Extractor

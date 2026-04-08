@@ -1,6 +1,6 @@
 ---
 name: sales-company-profile
-description: "Generate a deep company profile that helps AI understand what you sell, who buys it, and why it matters. Use when the user says 'set up my company profile', 'analyze my company', 'here's my company website', 'create a company profile', 'what do I sell', or when any other sales skill lacks context about the user's own product/company. Also triggers on 'update my company profile' or 'refresh the profile'. This is a one-time setup skill that makes every other sales skill work better."
+description: "Generates a consultant-grade value framework for the user's own company — problems solved, differentiation, proof points, trigger events. One-time setup that other sales skills reference. Triggers on 'set up my company profile', 'analyze my company', 'create a company profile', 'here's my company website', or when other sales skills lack product context. For researching prospect companies, see sales-account-research."
 ---
 
 # Sales Company Profile Generator

@@ -1,6 +1,6 @@
 ---
 name: sales-deal-review
-description: "Review the health of a deal by scoring evidence from call extractions. Use when the user says 'review this deal', 'how's the deal looking', 'deal review for [account]', 'score this deal', 'where do we stand with [account]', 'what do we know about [account]', 'deal health', 'diagnose this deal', or 'what are we missing on [account]'. Also triggers on 'run a deal review' or 'check the deal'. Can auto-run after a new extraction is processed if the user opts in."
+description: "Scores deal health across 6 evidence-based dimensions using buyer quotes from call extractions. Triggers on 'review this deal', 'deal review for [account]', 'how's the deal looking', 'score this deal', 'where do we stand', 'deal health', 'what are we missing'. Can auto-run after new extractions. For processing transcripts, see sales-transcript-extractor. For external research, see sales-account-research."
 ---
 
 # Sales Deal Review
