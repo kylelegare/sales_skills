@@ -1,0 +1,95 @@
+{
+  "skill_name": "sales-deal-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "how's the deal looking with Acme Corp?",
+      "expected_output": "Should look for extractions at ~/.agents/sales/acme-corp/extractions/. Should read all extraction files for the account. Should score all 6 dimensions (Problem, Impact, Urgency, Approach, People, Process) using the Strong/Emerging/Weak/Unknown scale. Should include direct buyer quotes as evidence. Should produce the full output format: scorecard table, What's Strong, What's Missing, Contradictions and Risk, Focus for Next Call.",
+      "assertions": [
+        "Reads all extraction files from ~/.agents/sales/acme-corp/extractions/",
+        "Scores all 6 dimensions (Problem, Impact, Urgency, Approach, People, Process)",
+        "Uses the 4-level scale (Strong/Emerging/Weak/Unknown)",
+        "Includes direct buyer quotes as evidence for scored dimensions",
+        "Produces scorecard table in the specified format",
+        "Includes 'What's Strong' section with expanded evidence",
+        "Includes 'What's Missing' section with specific gaps",
+        "Includes 'Focus for Next Call' with actionable questions",
+        "Does NOT store the review as a file — outputs in conversation only"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "run a deal review for GlobalPay — and show me the MEDDPICC view too",
+      "expected_output": "Should produce the standard 6-dimension review first, then map the same evidence to MEDDPICC categories (Metrics, Economic Buyer, Decision Criteria, Decision Process, Paper Process, Identified Pain, Champion, Competition). Should not invent new evidence for the MEDDPICC view — same data, reorganized.",
+      "assertions": [
+        "Produces standard 6-dimension scorecard first",
+        "Follows with MEDDPICC framework overlay",
+        "Maps dimensions correctly (e.g., Metrics → Impact, Identified Pain → Problem)",
+        "Does not invent new evidence for the framework view",
+        "Uses the same quotes in both views"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "score this deal for Meridian Health — I think we're in good shape, they loved the demo",
+      "expected_output": "Should produce an honest assessment regardless of the user's optimism. If evidence is thin, dimensions should be scored Unknown or Weak — not inflated because the user feels good about it. Should specifically check whether 'they loved the demo' is backed by buyer quotes or is seller-side assertion. Should surface any gaps even if the user thinks the deal is strong.",
+      "assertions": [
+        "Does not inflate scores based on user's stated optimism",
+        "Scores dimensions as Unknown when no evidence exists in extractions",
+        "Evaluates 'loved the demo' against actual buyer quotes — flags if only seller assertion",
+        "Surfaces gaps honestly even though user said 'we're in good shape'",
+        "Distinguishes between buyer enthusiasm (strong) and seller enthusiasm (weak)"
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "where do we stand with Acme? we only had one discovery call so far",
+      "expected_output": "Should still produce a review even with limited data. Should score most dimensions as Unknown or Emerging given only one call. Should not over-interpret limited evidence. The 'Focus for Next Call' section should be especially valuable here — surfacing what needs to be explored in call 2.",
+      "assertions": [
+        "Produces a review even with only one extraction",
+        "Scores most dimensions as Unknown or Emerging appropriately",
+        "Does not overstate evidence strength from a single call",
+        "Focus for Next Call section provides specific questions for the next conversation",
+        "Notes that evidence will strengthen with additional calls"
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "what are we missing on the Acme deal? also can you check if they passed the No Logo Test?",
+      "expected_output": "Should focus the review on What's Missing and explicitly run the No Logo Test on the problem description. Should rate the problem description 1-5 on uniqueness — could this description only apply to Acme, or could it describe any company?",
+      "assertions": [
+        "Emphasizes the What's Missing section per user's focus",
+        "Explicitly runs the No Logo Test and rates 1-5",
+        "Evaluates whether the problem description is unique to this account",
+        "Provides specific gaps with actionable next steps"
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "can you process this transcript from my call with Acme today? [transcript text]",
+      "expected_output": "Should NOT process a transcript — should redirect to the sales-transcript-extractor skill. The deal review skill reads from existing extractions, it does not process raw transcripts.",
+      "assertions": [
+        "Does NOT process the transcript",
+        "Redirects to sales-transcript-extractor skill by name",
+        "Explains that deal review reads from existing extractions"
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "draft a follow-up email for the Acme deal based on where we stand",
+      "expected_output": "Should NOT write a follow-up email. Should redirect and explain that artifact generation (emails, business cases, proposals) is outside deal review scope. Should offer to run the deal review so the user has the evidence base to inform a follow-up.",
+      "assertions": [
+        "Does NOT generate a follow-up email",
+        "Explains artifact generation is outside this skill's scope",
+        "Offers to run a deal review instead"
+      ],
+      "files": []
+    }
+  ]
+}

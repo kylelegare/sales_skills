@@ -1,0 +1,83 @@
+{
+  "skill_name": "sales-account-research",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "research Snowflake for me — I have a discovery call with their VP of Sales Engineering next Thursday",
+      "expected_output": "Should create a full dossier at ~/.agents/sales/snowflake/dossier.md. Should cover all research sections: What's Changing, Strategic Priorities, Hiring Signals, Company Overview, Industry Context, Key People. Should generate context-led conversation starters in Orlob's format (observation + relevance + question). Should include questions to explore.",
+      "assertions": [
+        "Creates dossier at ~/.agents/sales/snowflake/dossier.md",
+        "Includes What's Changing section with recent news",
+        "Includes Strategic Priorities from executive statements",
+        "Includes Hiring Signals from job postings",
+        "Includes Company Overview with business model and size",
+        "Generates context-led conversation starters with observation + question format",
+        "Includes Questions to Explore section",
+        "Confirms completion with key findings summary"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "update the research on Acme Corp — it's been a few weeks since we last looked",
+      "expected_output": "Should enter update mode. Should read the existing dossier, check the last_researched date, and run targeted research for changes since that date. Should update the dossier in place (not replace it). Should show what changed.",
+      "assertions": [
+        "Reads existing dossier before researching",
+        "Runs targeted research (not full re-research)",
+        "Focuses on changes since last_researched date",
+        "Updates dossier in place rather than replacing",
+        "Reports what's new or changed"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I'm meeting with someone at First Federal Credit Union next week. Can you look them up?",
+      "expected_output": "Should create a full dossier AND activate the FI-specific layer for credit unions. Should include NCUA data (charter number, asset size, member count, field of membership). Should include service area demographics. Should still include all standard research sections.",
+      "assertions": [
+        "Creates a standard dossier with all research sections",
+        "Activates the FI-specific layer for credit unions",
+        "Includes NCUA regulatory data",
+        "Includes field of membership information",
+        "Includes asset size context (small/medium/large)",
+        "Includes service area demographics"
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "prep me for HubSpot — they're a public company so there should be a lot out there",
+      "expected_output": "Should produce a rich dossier leveraging public company data: earnings call transcripts, investor presentations, SEC filings, analyst coverage. Strategic Priorities section should be especially detailed with named initiatives and executive quotes. Should capture exact executive language for conversation starters.",
+      "assertions": [
+        "Leverages public company data sources (earnings calls, investor presentations)",
+        "Strategic Priorities section includes named initiatives from executive statements",
+        "Captures executive language and terminology",
+        "Conversation starters reference specific public data points",
+        "Company Overview includes financial metrics (revenue, growth)"
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "can you review where we stand with the Snowflake deal? I want to know what evidence we have",
+      "expected_output": "Should NOT run a deal review. Should redirect to the sales-deal-review skill. Should explain that this skill does external research, not deal health scoring from extractions.",
+      "assertions": [
+        "Does NOT score deal health or review extractions",
+        "Redirects to sales-deal-review skill by name",
+        "Explains this skill only handles external research"
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "here's the transcript from my call with Datadog today — can you process it?\n\n[transcript text]",
+      "expected_output": "Should NOT process a transcript. Should redirect to the sales-transcript-extractor skill. Should explain that this skill researches companies from public sources, not from call transcripts.",
+      "assertions": [
+        "Does NOT process the transcript",
+        "Redirects to sales-transcript-extractor skill by name",
+        "Clarifies this skill handles external research only"
+      ],
+      "files": []
+    }
+  ]
+}

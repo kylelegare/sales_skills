@@ -1,0 +1,83 @@
+{
+  "skill_name": "sales-company-profile",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "set up my company profile — our website is https://www.gong.io",
+      "expected_output": "Should research Gong from public sources (website, G2, case studies, careers, blog) and produce a full company profile at ~/.agents/sales/company-profile.md. Should include all 6 sections: Company Soundbite (4-sentence format), Buyer's Problem Stack, Value Chain, Differentiation (3-tier), Proof Points, Trigger Events. Should use buyer language from reviews, not just marketing copy.",
+      "assertions": [
+        "Creates profile at ~/.agents/sales/company-profile.md",
+        "Includes Company Soundbite in the 4-sentence format (because of / now's the time / so that / instead of)",
+        "Includes Buyer's Problem Stack with 3-5 problems in buyer language",
+        "Includes Value Chain with capability → metric → dollar impact per persona",
+        "Includes 3-tier Differentiation (defensible / comparative / assumed)",
+        "Includes Proof Points from case studies with specific results",
+        "Includes Trigger Events paired to problems",
+        "Uses buyer/reviewer language from G2 or similar, not just marketing copy",
+        "Notes gaps where public data is insufficient"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "analyze my company — we're at https://www.lattice.com. We sell HR performance management software. Our main differentiator is that we combine performance reviews, engagement surveys, and compensation management in one platform. Most competitors only do one of those things.",
+      "expected_output": "Should incorporate both the website research AND the user's verbal context about differentiation. The defensible differentiator (combined platform) should come from the user's input, validated against public sources. Should not just parrot the user's words back — should research and enrich with buyer voice from reviews.",
+      "assertions": [
+        "Incorporates user's verbal context about differentiation",
+        "Places combined platform positioning in defensible or comparative tier with justification",
+        "Enriches user input with independent research from reviews and case studies",
+        "Does not simply parrot back what the user said",
+        "Buyer's Problem Stack reflects real buyer pain from reviews, not just marketing"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "update my company profile — we just published a new case study with Delta Airlines where they reduced onboarding time by 40%",
+      "expected_output": "Should enter update mode. Should read the existing company profile, add the new Delta Airlines proof point to the Proof Points section, and potentially update Value Chain if the onboarding metric is new. Should not redo the entire profile — targeted update only.",
+      "assertions": [
+        "Reads existing profile before updating",
+        "Adds Delta Airlines as a new proof point with specific result (40% reduction)",
+        "Updates only relevant sections, not the entire profile",
+        "Updates the generated date",
+        "Shows what changed in the confirmation"
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "create a company profile for a startup — our website is pretty bare bones, just a landing page at https://www.example-startup.com. We're pre-revenue, no case studies yet.",
+      "expected_output": "Should handle limited public data gracefully. Should produce a profile that's honest about gaps — no fabricated proof points or case studies. Should still produce useful sections (soundbite, problem stack, differentiation) based on what's available. Should note which sections are thin and suggest how to enrich them later.",
+      "assertions": [
+        "Handles limited public data without fabricating content",
+        "Explicitly notes gaps (e.g., 'No public case studies found')",
+        "Still produces a useful soundbite and problem stack",
+        "Differentiation section is honest about what's provable vs. claimed",
+        "Suggests ways to enrich the profile as the company grows"
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "can you research Salesforce for my upcoming call? I want to know what's going on with them lately",
+      "expected_output": "Should NOT research a prospect company. Should redirect to the sales-account-research skill. Should explain that this skill profiles YOUR company, not prospect companies.",
+      "assertions": [
+        "Does NOT research Salesforce as a prospect",
+        "Redirects to sales-account-research skill by name",
+        "Explains this skill profiles the user's own company, not prospects"
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "how's my deal with Acme looking? can you score it?",
+      "expected_output": "Should NOT score a deal. Should redirect to the sales-deal-review skill. Should explain that this skill generates a company profile for the user's own product/company.",
+      "assertions": [
+        "Does NOT perform deal scoring",
+        "Redirects to sales-deal-review skill by name",
+        "Clarifies this skill is for profiling your own company"
+      ],
+      "files": []
+    }
+  ]
+}

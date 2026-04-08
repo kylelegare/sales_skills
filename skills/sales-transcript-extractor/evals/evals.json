@@ -1,0 +1,89 @@
+{
+  "skill_name": "sales-transcript-extractor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "here's the transcript from my discovery call with Acme Corp today:\n\nSpeaker 1: So what's been driving you to look into this?\nSpeaker 2: Honestly, our close rates dropped from 28% to 19% over the last two quarters. Our CRO is losing sleep over it. We think it's because reps aren't doing proper discovery — they jump straight to the demo.\nSpeaker 1: That's a big drop. What's that costing you?\nSpeaker 2: Well, if you do the math, each point of close rate is worth about $200K in ARR for us. So we're leaving almost $2M on the table annually.\nSpeaker 1: Who else is feeling the impact of this?\nSpeaker 2: Sales ops is drowning trying to compensate with more pipeline, and our VP of Marketing is frustrated because she's generating leads that aren't converting. Even our CS team feels it — the deals that do close are worse fits because reps aren't qualifying properly.\nSpeaker 1: Makes sense. We should set up a demo for next Tuesday with your team.\nSpeaker 2: Sure, that works.\n\nprocess this transcript",
+      "expected_output": "Should create account directory, save raw transcript, produce structured extraction with items for: the close rate drop (tagged problem), the $2M cost (tagged outcome/negative-impact), the ripple effects on sales ops/marketing/CS (tagged negative-impact), and the demo commitment (tagged commitment). Should flag that the close rate problem passes the No Logo Test. Should note the demo is seller-driven with no buyer-side commitment. Gap map should flag missing root causes, timeline/urgency, stakeholder names, and decision process.",
+      "assertions": [
+        "Creates directory structure at ~/.agents/sales/acme-corp/",
+        "Saves raw transcript to transcripts/ directory",
+        "Saves extraction to extractions/ directory",
+        "Tags close rate drop as 'problem' — a suffering metric",
+        "Tags $2M cost as 'outcome' or 'negative-impact'",
+        "Tags ripple effects on other teams as 'negative-impact'",
+        "Distinguishes the business problem (close rates) from root cause (reps skip discovery)",
+        "Notes the demo commitment is seller-driven, not buyer-driven",
+        "Includes direct buyer quotes in extraction items",
+        "Produces a feedback summary with gaps and suggested next actions"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I just had a call with Sarah Chen, VP of Revenue at GlobalPay. She mentioned they're evaluating three vendors including us. She said 'we need to make a decision by March 15 because our board meeting is March 20 and the CEO wants to present the new strategy.' She also said their current tool is 'absolute garbage' and they've been trying to fix it internally for 6 months. Her words: 'we've burned through two engineers trying to build this in-house and I'm done throwing good money after bad.' Can you extract this?",
+      "expected_output": "Should extract with specific buyer quotes preserved exactly. Should tag the March 15 deadline as timeline with buyer-driven urgency (board meeting is the forcing function). Should tag competition. Should tag the in-house build attempt as a root-cause/context item. Should capture Sarah Chen as a named stakeholder. Should note this is a strong buying signal (active evaluation with deadline).",
+      "assertions": [
+        "Preserves exact buyer quotes including 'absolute garbage' and 'good money after bad'",
+        "Tags March 15 deadline as timeline with buyer-driven urgency",
+        "Identifies board meeting as the forcing function",
+        "Tags the three-vendor evaluation as competition",
+        "Captures Sarah Chen by name with VP of Revenue title",
+        "Notes the failed internal build attempt",
+        "Flags this as a buying signal in the feedback summary"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "deep dive on the Acme Corp discovery call from last week — I think we missed some signals",
+      "expected_output": "Should enter deep dive mode. Should look for the existing transcript and extraction in ~/.agents/sales/acme-corp/. Should re-read the raw transcript looking for dropped threads, subtle signals, hesitation, and implications not explored. Should produce a supplementary extraction file (not replace the original). If no existing files found, should ask which account/call to re-process.",
+      "assertions": [
+        "Enters deep dive mode (not standard extraction)",
+        "Looks for existing transcript and extraction files",
+        "Does not replace the original extraction",
+        "Looks for dropped threads and subtle signals",
+        "Produces a supplementary extraction file with -deep-dive suffix"
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "here's my Granola notes from a check-in call:\n\nMet with Dave (IT Director) and Lisa (Procurement) at Meridian Health. Dave said the pilot went well but Lisa raised concerns about our security review — she needs SOC2 Type II before they can proceed. Dave mentioned their CISO wants to review the architecture doc. Lisa said procurement typically takes 3-4 weeks after security clears. Dave committed to introducing us to the CISO next week.",
+      "expected_output": "Should handle Granola-format notes (not a full transcript). Should extract multiple stakeholders by name and role. Should tag security review and procurement timeline as process items. Should tag Dave's commitment to intro the CISO. Should note Lisa as a potential blocker or gatekeeper. Should flag the buying signals (pilot completed, procurement discussion).",
+      "assertions": [
+        "Handles Granola meeting notes format",
+        "Extracts Dave (IT Director) and Lisa (Procurement) as named stakeholders",
+        "Tags SOC2 requirement as process/risk",
+        "Tags 3-4 week procurement timeline",
+        "Tags Dave's commitment to CISO introduction",
+        "Identifies the CISO as an uncovered stakeholder",
+        "Flags pilot completion as a buying signal"
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "I just had a great call with Acme. Can you write me a follow-up email summarizing what we discussed and propose next steps?",
+      "expected_output": "Should NOT write a follow-up email. Should redirect to explain that follow-up emails are outside this skill's scope. Should offer to process the transcript if the user pastes it, and note that a follow-up email skill would be a separate tool that reads from extractions.",
+      "assertions": [
+        "Does NOT generate a follow-up email",
+        "Explains this is outside the transcript extractor's scope",
+        "Suggests pasting the transcript for extraction instead",
+        "References that artifact generation is handled by other skills"
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "can you research Snowflake before my call tomorrow? I want to know what's going on with them",
+      "expected_output": "Should NOT do account research. Should redirect to the sales-account-research skill. Should explain that this skill processes transcripts, not external research.",
+      "assertions": [
+        "Does NOT perform company research",
+        "Redirects to sales-account-research skill by name",
+        "Clarifies this skill only processes transcripts"
+      ],
+      "files": []
+    }
+  ]
+}
