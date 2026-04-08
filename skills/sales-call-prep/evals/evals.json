@@ -1,0 +1,103 @@
+{
+  "skill_name": "sales-call-prep",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "prep me for my discovery call with Acme Corp tomorrow — we had one call already where they mentioned close rates dropping but I didn't get into root causes or impact",
+      "expected_output": "Should load existing extractions and identify Problem as Emerging but Root Causes, Impact, and Urgency as gaps. Should generate questions focused on cause analysis and negative impact. Questions should use Orlob's open-before-targeted sequencing. Should include an opening play that recaps what was heard on call 1. Should include specific questions with humbling disclaimers and 'to what extent' patterns.",
+      "assertions": [
+        "Reads existing extractions for Acme Corp",
+        "Identifies root cause, impact, and urgency as primary gaps",
+        "Generates cause analysis questions (open diagnostic first, then targeted)",
+        "Generates negative impact questions with ripple effects",
+        "Opening play recaps prior call using buyer language",
+        "Questions include softening language or humbling disclaimers",
+        "Uses 'to what extent' pattern in at least one question",
+        "Questions are sequenced logically (open before targeted)",
+        "Loads discovery methodology reference doc"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I have a first call with Snowflake's VP of Sales Engineering next Thursday. Never spoken to them before but I did the account research already.",
+      "expected_output": "Should load dossier for context-led openers. Should recognize this is a first call with no extractions. Should generate an opening using either context-led questions from dossier findings or a discovery prompter. Should include upfront contract/ROE setup. Should focus questions on surfacing business problems (Phase 1 of depth chain). Should load company profile for context on what problems to probe.",
+      "assertions": [
+        "Loads existing dossier for Snowflake",
+        "Loads company profile for context on problems to probe",
+        "Recognizes this is a first call — no extractions exist",
+        "Opening play uses context-led question from dossier research",
+        "Includes upfront contract or ROE setup",
+        "Questions focus on Phase 1 — surfacing business problems",
+        "Does not generate late-stage questions (buying criteria, process)",
+        "Includes conversation starters grounded in dossier findings"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "what should I ask on the next call with GlobalPay? we're 4 calls in, I have strong problem and impact but no idea about their buying process or who the decision maker is",
+      "expected_output": "Should identify People and Process as the key gaps. Should generate closing motion questions (series of steps, who's involved, timeline, budget risk) and stakeholder mapping questions. Should use progressive intrusion ordering (steps → people → timeline → money). Should NOT generate more problem or impact questions since those are already strong.",
+      "assertions": [
+        "Identifies People and Process as primary gaps",
+        "Does NOT generate problem or impact questions (already strong)",
+        "Generates stakeholder mapping questions (who's involved, who decides)",
+        "Generates process questions (series of steps, approvals needed)",
+        "Uses progressive intrusion ordering (least to most sensitive)",
+        "Includes spot-check questions for legal/procurement/security",
+        "Includes vendor-of-choice qualification question",
+        "Questions include softening language for sensitive topics"
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "just give me the questions for Acme — no need for the full plan, I'm walking into the call in 5 minutes",
+      "expected_output": "Should output a concise numbered question list without the full structured plan. Should still ground questions in gaps from extractions. Should skip the opening play, closing section, and watch-for section. Quick and actionable.",
+      "assertions": [
+        "Outputs concise numbered question list only",
+        "Skips the full structured plan format",
+        "Questions are still grounded in deal-specific gaps",
+        "Each question is ready to say out loud",
+        "Respects the time constraint — no lengthy output"
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "I have an exec meeting with Meridian Health's CFO next week. First time meeting her — my champion set it up",
+      "expected_output": "Should recognize this is a C-level executive meeting and adjust approach. Should lead with insight not questions (Orlob/Charles C-level pattern). Should generate questions about business impact and financial metrics since it's a CFO. Should include questions that validate what the champion has shared. Should keep questions concise — executives have less patience for long discovery.",
+      "assertions": [
+        "Recognizes C-level executive context and adjusts approach",
+        "Opening leads with insight, not questions",
+        "Questions focus on business impact and financial metrics (CFO-relevant)",
+        "Includes questions that validate champion's claims",
+        "Questions are concise — appropriate for executive attention span",
+        "Loads company profile to connect problems to financial value chain"
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "can you research Datadog for me? I have a call with them next week",
+      "expected_output": "Should NOT do account research. Should redirect to sales-account-research skill. Should offer to generate call prep questions once research is done.",
+      "assertions": [
+        "Does NOT perform company research",
+        "Redirects to sales-account-research skill by name",
+        "Offers to prep questions after research is complete"
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "here's the transcript from my call with Acme today — can you process it?",
+      "expected_output": "Should NOT process a transcript. Should redirect to sales-transcript-extractor. Should offer to prep for the NEXT call after the transcript is processed.",
+      "assertions": [
+        "Does NOT process the transcript",
+        "Redirects to sales-transcript-extractor skill by name",
+        "Offers to generate call prep after extraction is done"
+      ],
+      "files": []
+    }
+  ]
+}
