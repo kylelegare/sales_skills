@@ -8,10 +8,11 @@ Built for AEs who actually sell -- not growth marketing, not SEO, not content. D
 
 | Skill | What it does |
 |-------|-------------|
-| **sales-transcript-extractor** | Paste a call transcript, get a structured extraction with buyer quotes, topic tags, and a gap map. The foundational skill -- everything else reads from these. |
+| **sales-extractor** | Paste a call transcript, demo, or internal deal chat. Auto-detects mode and runs five framework-grounded passes (Surface, Orlob, Nasralla, Bredvick-simplified, Operational). Produces typed items with auditable provenance — buyer quotes, structured commitments, stakeholder mentions, framework tags, and a Framework Notes block per pass. **The foundational skill — everything else reads from these.** |
 | **sales-account-research** | Build an account dossier from public sources -- news, earnings, job postings, executive signals. External research layer. |
 | **sales-company-profile** | One-time setup. Generates a value framework for YOUR company -- problems you solve, differentiation, proof points, trigger events. |
 | **sales-deal-review** | Score deal health across 6 evidence dimensions using actual buyer quotes from extractions. Honest assessment, not happy ears. |
+| **sales-transcript-extractor** *(DEPRECATED 2026-04-26)* | Single-pass predecessor to `sales-extractor`. Kept in place during the v1 soak window for fallback only. Will be removed once `sales-extractor` is proven on real deals. **Do not use for new work.** |
 
 ## Install
 

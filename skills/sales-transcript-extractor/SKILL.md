@@ -1,9 +1,21 @@
 ---
 name: sales-transcript-extractor
-description: "Processes sales call transcripts into structured, queryable extractions with buyer quotes, topic tags, and gap analysis. Triggers on pasted transcripts, 'process this transcript', 'extract from this call', 'debrief this transcript', 'here's the transcript', or shared Granola/Gong notes. Also handles 'deep dive' re-processing. For external company research, see sales-account-research. For deal health scoring, see sales-deal-review."
+description: "DEPRECATED 2026-04-26 — superseded by sales-extractor (multi-pass, framework-grounded). DO NOT USE for new transcript processing. Kept temporarily for fallback during the v1 soak window only. Trigger only on the explicit phrase 'use legacy single-pass extractor'. Standard transcript-processing requests (pasted transcripts, 'process this transcript', 'extract from this call', Granola/Gong notes) should route to sales-extractor instead."
 ---
 
-# Sales Transcript Extractor
+# Sales Transcript Extractor (legacy)
+
+> **⚠ DEPRECATED — 2026-04-26**
+>
+> This skill has been **superseded by [`sales-extractor`](../sales-extractor/SKILL.md)**, which runs five framework-grounded passes (Surface, Orlob, Nasralla, Bredvick-simplified, Operational) per call instead of a single pass, supports multiple input modes (sales-call, demo, internal-deal-chat), and produces typed items with auditable provenance.
+>
+> **For all new transcript processing, use `sales-extractor`.** This skill is kept in place only as a fallback during the v1 soak window and will be deleted once the new skill is proven on real deals (~4-6 weeks).
+>
+> **Why deprecated:** single-pass extraction asks the model to do too many things at once — capture buyer language, summarize, infer stakeholders, surface significance, all in one prompt. The output is good-but-shallow. Every downstream skill is bottlenecked by extraction quality, so improving extraction is the highest-leverage move. See `docs/brainstorms/2026-04-25-framework-grounded-extraction-requirements.md` and `docs/plans/2026-04-25-001-feat-framework-grounded-extractor-plan.md` for rationale.
+>
+> **Compatibility note:** The artifact format produced by this skill is **not directly compatible** with the new `sales-extractor` artifact format. Downstream skills (`sales-deal-review`, `sales-call-prep`) currently read the legacy format and will need a follow-up update to read the new format — that work is tracked as a separate plan.
+
+---
 
 Process a raw sales call transcript into a structured extraction — a companion document that captures every meaningful piece of information in a queryable, reusable format. The raw transcript is preserved as-is. The extraction becomes the working document that downstream skills and ad-hoc questions pull from.
 
