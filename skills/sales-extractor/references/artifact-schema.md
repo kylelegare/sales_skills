@@ -35,7 +35,7 @@ passes_run:                           # required — list of passes that ran
   - surface
   - orlob
   - nasralla
-  - bredvick-simplified
+  - bredvick
   - operational
 passes_failed: []                     # required (empty array if none)
 no_logo_rating: <1-5>                 # optional — present when Orlob pass ran and produced one
@@ -186,7 +186,7 @@ Every item has a `provenance` array listing the passes that produced or tagged i
 
 - **Item created by Surface only:** `provenance: [surface]`
 - **Item created by Surface, tagged by Orlob:** `provenance: [surface, orlob]`
-- **Item created by Bredvick (no Surface origin):** `provenance: [bredvick-simplified]`
+- **Item created by Bredvick (no Surface origin):** `provenance: [bredvick]`
 - **Item merged across passes (e.g., commitment created by Surface, structured by Operational):** `provenance: [surface, operational]`
 - **Failed pass:** does NOT appear in provenance — `passes_failed` in frontmatter is the canonical record.
 
@@ -216,7 +216,7 @@ passes_run:
   - surface
   - orlob
   - nasralla
-  - bredvick-simplified
+  - bredvick
   - operational
 passes_failed: []
 no_logo_rating: 4
@@ -345,7 +345,7 @@ Sarah Chen (VP Sales, champion) is dealing with a quantified close-rate decline 
 
 ### [gap-for-stage] Procurement-process owner unknown
 
-**Provenance:** [bredvick-simplified]
+**Provenance:** [bredvick]
 **Framework tags:** [bredvick:gap-for-stage]
 
 **Summary:** Buyer cannot identify procurement-process owner ("it's its own thing"). Reasonable to expect by mid-cycle: a specific person or function.

@@ -123,7 +123,7 @@ quote:
 summary: Discovery surfaced two problem statements but neither was quantified. Reasonable to expect on a substantive discovery call: specific metrics (close-rate %, dollar impact, number of affected accounts).
 why_matters: Without quantification, downstream artifacts (Nasralla soundbites, business case) lack load-bearing data. Likely the next call should explicitly probe for the metric.
 buyer_language:
-provenance: [bredvick-simplified]
+provenance: [bredvick]
 framework_tags: [bredvick:gap-for-stage]
 ```
 
@@ -136,7 +136,7 @@ quote: "Procurement is, I mean, sort of its own thing. Anyway, let me tell you a
 summary: Buyer started to discuss procurement, hedged, then pivoted to product use. Possible procurement-process risk being avoided.
 why_matters: Procurement is often where deals stall. The hedge + pivot pattern suggests buyer may not know the process or may be uncomfortable with it. Worth probing directly on next call.
 buyer_language:
-provenance: [bredvick-simplified]
+provenance: [bredvick]
 framework_tags: [bredvick:glossed-over-moment]
 ```
 
@@ -149,7 +149,7 @@ quote:
 summary: Buyer was specific about technical capabilities and quantified business problems, but every time security came up she pivoted to "we'd need to discuss with leadership." Pattern suggests the actual blocker may be securing internal alignment with a non-security stakeholder, not security itself.
 why_matters: Hypothesis worth probing — direct security questions on next call may surface the real underlying stakeholder concern. If correct, this changes the closing motion.
 buyer_language:
-provenance: [bredvick-simplified]
+provenance: [bredvick]
 framework_tags: [bredvick:hypothesis, bredvick:prose-confidence-plausible]
 ```
 
