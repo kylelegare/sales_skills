@@ -27,6 +27,27 @@ This skill supersedes `sales-transcript-extractor` (single-pass). The existing s
 
 8. **Cost is the explicit tradeoff.** Five sequential passes cost more than one. This is by design — extraction is async, the signal compounds, and downstream skills consume the result many times. See `references/artifact-schema.md` for token-budget guidance.
 
+## Running State Across Passes
+
+The orchestration maintains a single in-flight extraction state through the workflow. State elements:
+
+- **`items`** — accumulating list of typed items. Each pass appends new items and/or modifies existing items (adding `framework_tags`, adding fields like `owner` to commitment items).
+- **`framework_notes`** — a dict keyed by pass name. Each pass that produces a Framework Notes contribution writes its block here.
+- **`metadata`** — accumulating frontmatter fields (account, date, mode, participants, passes_run, passes_failed, no_logo_rating).
+
+What each pass receives as input:
+- The transcript
+- Its own reference file (loaded fresh at pass start)
+- The current `items` list (so it can build on prior-pass output rather than re-extract)
+- The mode profile (so it knows mode-specific emphases)
+
+What each pass returns:
+- New items to append to `items`, OR modifications to existing items (adding tags or fields)
+- A Framework Notes block to add to `framework_notes`
+- Optional metadata contributions (e.g., Orlob contributes `no_logo_rating` to `metadata`)
+
+Passes do **not** re-extract content already captured. They build on the running state.
+
 ## Workflow
 
 ### Phase 1: Receive and Identify
@@ -101,46 +122,83 @@ The five passes:
 
 ### Phase 5: Collate
 
-After all passes run:
+After all passes run, normalize and deduplicate the accumulated `items` list.
 
-1. **Group items by `item_type`.**
-2. **Dedupe within each group:**
-   - Items with quotes: match by exact quote text (whitespace-normalized). If matched, merge.
-   - Items without quotes: match by whole-content string. If matched, merge.
-   - On merge: combine provenance arrays; combine framework_tags arrays (deduped).
-3. **Sort items within each group** by source-of-discovery (first-pass-found first).
+**Step 1 — Group by `item_type`.** Partition `items` into groups where each group contains items of one type (all `buyer-statement` items together, all `stakeholder-mention` items together, etc.). Item types are the catalogue defined in `references/artifact-schema.md`.
 
-(Detailed dedup behavior and Unit 5's exact algorithm are filled in by the Unit 5 implementation pass — this skeleton documents the intent.)
+**Step 2 — Dedupe within each group.** For each pair of items in the same group, decide whether they're duplicates and merge if so:
+
+- **Items with a `quote` field present (both):** match by exact quote text after whitespace normalization (collapse runs of whitespace to single spaces, trim ends). If quotes match exactly → merge.
+- **Items where one has a quote and the other doesn't:** do NOT auto-merge. Different evidence levels — keep separate. (A later v1.5 may add similarity-based merging here; for v1, keep them.)
+- **Items without quotes (both):** match by whole-content string of the `summary` field after whitespace normalization. If summaries match exactly → merge.
+- **All other cases:** keep separate. False-merge is more harmful than false-split for v1.
+
+**Step 3 — Merge logic when two items match:**
+- Combine `provenance` arrays (deduped, order preserved by first-appearance).
+- Combine `framework_tags` arrays (deduped).
+- Keep all other fields from the *first* item (which was created earlier in the pass sequence). If a later pass added structured fields (e.g., Operational pass added `owner`/`timeframe` to a Surface `commitment`), those should be preserved — they were attached to the existing item, not created on a new item, so this case isn't actually a dedup.
+
+**Step 4 — Sort within each group.** Order items by source-of-discovery: first-pass-found first (Surface items appear before Bredvick-only items in the Items section). Within a single pass, preserve the order the pass returned them.
+
+**Step 5 — Compute `item_count_by_type`.** Count items per type for the frontmatter `summary_stats.item_count_by_type`.
+
+If false-split or false-merge rates become observable problems on real transcripts, revisit this algorithm. v1 errs on the side of false-split.
 
 ### Phase 6: Compose Artifact
 
-Build the artifact per [references/artifact-schema.md](references/artifact-schema.md):
+Build the artifact per [references/artifact-schema.md](references/artifact-schema.md). Composition is mechanical assembly from the running state — no new extraction or analysis happens here.
 
-1. **Frontmatter** — accumulated metadata (account, date, mode, participants, passes_run, passes_failed if any, summary stats including no_logo_rating from Orlob, item_count_by_type).
-2. **TL;DR** — 3 sentences max, composed from operational-pass key items + Nasralla soundbite candidates.
-3. **Items** — grouped by `item_type` per the schema.
-4. **Framework Notes** — cross-cutting per-pass summaries (Orlob's rating + bucket distribution; Nasralla's soundbites + cost-of-inaction; Bredvick-simplified's gaps + glossed-over).
+**Step 1 — Frontmatter.** Emit the YAML block per the schema:
+- `account`, `date`, `mode`, `mode_detected_via` from `metadata`
+- `participants` from `metadata`
+- `passes_run` from `metadata` (in execution order)
+- `passes_failed` from `metadata` (empty array if none)
+- `no_logo_rating` from `metadata` (omit field entirely if Orlob didn't run or didn't produce one — common for `internal-deal-chat` mode)
+- `summary_stats.item_count_total` and `summary_stats.item_count_by_type` computed in Phase 5
+- `raw_transcript: ../transcripts/<filename>` pointer
 
-No separate synthesis pass for v1.
+**Step 2 — TL;DR composition.** Generate 3 sentences max by combining:
+- One sentence on the dominant business problem (from items tagged `orlob:business-problem` if present, else from the most-prominent `buyer-statement` items, else "Internal deal-chat — no buyer in the room")
+- One sentence on key signals (from Operational pass: stakeholder identification, commitment asymmetry, trigger events)
+- One sentence on what's open or worth probing (from Bredvick gaps and hypotheses, or from `open-question` items)
+
+The TL;DR should pass the forwarding test — read it as if a champion were forwarding to a CFO. If it sounds like AI-summary-speak, rewrite using buyer language from the items.
+
+**Step 3 — Items section.** For each `item_type` group (in this order: buyer-statement, seller-statement, commitment, open-question, stakeholder-mention, technical-reaction, capability-pain-mapping, decision, owner-assignment, concern, hypothesis-update, dissent, trigger-event, competitor-mention, happy-ears-flag, risk-signal, gap-for-stage, glossed-over-moment, hypothesis), emit a subsection with all items in the group. Skip groups that are empty for this artifact.
+
+Each item rendered per the layout in `artifact-schema.md`: heading with `[<item_type>] <Title>`, metadata block, optional blockquote, summary, why-it-matters, optional buyer-language, separator.
+
+**Step 4 — Framework Notes.** For each pass that produced a Framework Notes contribution (in this order: Orlob, Nasralla, Bredvick-simplified, Operational), emit its block per its reference file's template. Include the v1-limitation footer in the Bredvick block. Skip passes that didn't run or failed.
+
+No separate synthesis pass — Framework Notes are assembled from per-pass outputs already collected during Phase 4.
 
 ### Phase 7: Write and Report
 
-1. **Write the extraction artifact** to:
-   ```
-   ~/.agents/sales/<account-slug>/extractions/YYYY-MM-DD-<mode>.md
-   ```
+**Step 1 — Write the extraction artifact** to:
+```
+~/.agents/sales/<account-slug>/extractions/YYYY-MM-DD-<mode>.md
+```
+If a file with that exact name already exists, append a sequence suffix (`-2.md`, `-3.md`, etc.).
 
-2. **Confirm completion** to the user:
-   > **Extraction complete.**
-   >
-   > Raw transcript: `~/.agents/sales/<account>/transcripts/<filename>`
-   > Extraction: `~/.agents/sales/<account>/extractions/<filename>`
-   >
-   > Mode: `<mode>` (auto-detected — confirm or override?)
-   > Passes run: `[surface, orlob, nasralla, bredvick-simplified, operational]`
-   > [`passes_failed: [<pass>]` if any]
-   >
-   > [TL;DR derived from artifact]
+**Step 2 — Report to the user.** Output the following block in the conversation:
+
+> **Extraction complete.**
+>
+> **Raw transcript:** `~/.agents/sales/<account>/transcripts/<filename>`
+> **Extraction:** `~/.agents/sales/<account>/extractions/<filename>`
+>
+> **Mode:** `<mode>` (detected via: `<mode_detected_via>`)
+> **Passes run:** `[<list>]`
+> [If `passes_failed` is non-empty: `**⚠ Passes failed:** [<list>] — partial extraction; some signals may be missing.`]
+> [If `no_logo_rating` was produced: `**No Logo rating:** <rating>/5`]
+>
+> **TL;DR:**
+> <three-sentence TL;DR from the artifact>
+>
+> [If significant gaps were flagged by Bredvick: `**Worth probing next call:** <list of bredvick gaps and hypotheses>`]
+> [If `mode_detected_via: default`: `**Note:** Mode was a default-fallback. Confirm or override before relying on this extraction.`]
+
+This report is the "feedback summary" — it's what makes processing a transcript worth doing. The user sees it immediately; the extraction file is there for downstream consumption.
 
 ---
 
