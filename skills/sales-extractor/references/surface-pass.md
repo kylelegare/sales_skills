@@ -2,7 +2,7 @@
 
 The first pass over any input. Captures **what was said, faithfully** in the speakers' own words. Pre-analytical — no framework imposed yet.
 
-This pass produces the corpus that subsequent lens passes (Orlob, Nasralla, Bredvick-simplified, Operational) consume and tag. Its job is to be a faithful, queryable representation of the conversation.
+This pass produces the corpus that subsequent lens passes (Discovery-Depth, Forwarding-Test, Critique-simplified, Operational) consume and tag. Its job is to be a faithful, queryable representation of the conversation.
 
 ## What This Pass Extracts
 
@@ -23,7 +23,7 @@ The Surface pass owns these types:
 - **`commitment`** — an explicit promise or next-step from either side. Surface captures the existence of the commitment and the literal phrasing; Operational pass adds owner/timeframe structure.
 - **`open-question`** — a question raised in the call that wasn't answered or that explicitly remains open. Either side may raise these. Common at end-of-call ("we'll get back to you on the security review timeline").
 
-Items of these types may later be tagged by lens passes (Orlob may add `orlob:business-problem`, Nasralla may flag a `nasralla:soundbite-candidate`, etc.). Item type is set by Surface; framework_tags accumulate from later passes.
+Items of these types may later be tagged by lens passes (Discovery-Depth may add `discovery-depth:business-problem`, Forwarding-Test may flag a `forwarding-test:soundbite-candidate`, etc.). Item type is set by Surface; framework_tags accumulate from later passes.
 
 ## Quality Standards
 
@@ -63,7 +63,7 @@ Extract:
 
 ### Faithful, Not Interpretive
 
-The Surface pass does NOT classify items into Orlob's three buckets, does NOT score for No Logo Test, does NOT identify Nasralla soundbite candidates. It captures what was said. Subsequent passes do the interpretation.
+The Surface pass does NOT classify items into the three buckets, does NOT score for specificity rating, does NOT identify Forwarding-Test soundbite candidates. It captures what was said. Subsequent passes do the interpretation.
 
 Resist the urge to be clever. "The buyer said X" is the goal. "The buyer is implying X" is for the lens passes.
 
@@ -82,10 +82,10 @@ When constructing the Surface pass prompt internally, the model should:
 - Apply the item-type field strictly: `buyer-statement` | `seller-statement` | `commitment` | `open-question`
 
 **Be told to NOT do:**
-- Apply Orlob's three-bucket classification (that's the Orlob pass's job)
-- Identify Nasralla soundbite candidates (that's Nasralla pass's job)
-- Score for No Logo Test (Orlob pass)
-- Identify gaps or glossed-over moments (Bredvick pass)
+- Apply the three-bucket classification (that's the discovery-depth pass's job)
+- Identify Forwarding-Test soundbite candidates (that's forwarding-test pass's job)
+- Score for specificity rating (discovery-depth pass)
+- Identify gaps or glossed-over moments (critique pass)
 - Resolve stakeholder identities or compute commitment asymmetry (Operational pass)
 - Invent quotes
 - Extract small talk, filler, or logistics
@@ -169,8 +169,8 @@ framework_tags: []
 
 ## Non-Goals for This Pass
 
-- No framework classification (Orlob's three buckets are NOT applied here)
-- No No Logo Test scoring
+- No framework classification (the three buckets are NOT applied here)
+- No specificity rating scoring
 - No soundbite identification
 - No gap/glossed-over detection
 - No stakeholder card resolution across calls

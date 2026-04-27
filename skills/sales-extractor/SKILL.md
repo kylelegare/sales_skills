@@ -1,6 +1,6 @@
 ---
 name: sales-extractor
-description: "Processes sales call transcripts, demos, and internal deal chats into structured framework-grounded extractions via multi-pass analysis. Triggers on pasted transcripts, 'process this transcript', 'extract from this call', 'debrief this transcript', 'here's the transcript', 'demo recap', 'internal call about [account]', or shared Granola/Gong notes. Auto-detects input mode (sales-call, demo, internal-deal-chat) and runs five framework lenses (Surface, Orlob, Nasralla, Bredvick-simplified, Operational) per call. Also handles 'deep dive' re-processing. Supersedes sales-transcript-extractor (single-pass). For external company research, see sales-account-research. For deal health scoring, see sales-deal-review."
+description: "Processes sales call transcripts, demos, and internal deal chats into structured framework-grounded extractions via multi-pass analysis. Triggers on pasted transcripts, 'process this transcript', 'extract from this call', 'debrief this transcript', 'here's the transcript', 'demo recap', 'internal call about [account]', or shared Granola/Gong notes. Auto-detects input mode (sales-call, demo, internal-deal-chat) and runs five framework lenses (Surface, Discovery-Depth, Forwarding-Test, Critique (Simplified), Operational) per call. Also handles 'deep dive' re-processing. Supersedes sales-transcript-extractor (single-pass). For external company research, see sales-account-research. For deal health scoring, see sales-deal-review."
 ---
 
 # Sales Extractor
@@ -15,7 +15,7 @@ This skill supersedes `sales-transcript-extractor` (single-pass). The existing s
 
 2. **Quotes are the confidence signal.** Direct quote present = high-confidence, can be used directly in artifacts. Quote absent = interpretation, may need confirmation. No separate confidence field.
 
-3. **Framework-grounded multi-pass.** Each extraction runs sequentially through specialized passes — one job per pass, one named standard per pass. The artifact's quality is auditable against named frameworks (Orlob, Nasralla, Bredvick-simplified, plus Surface and Operational). Never one prompt doing five things.
+3. **Framework-grounded multi-pass.** Each extraction runs sequentially through specialized passes — one job per pass, one named standard per pass. The artifact's quality is auditable against named frameworks (Discovery-Depth, Forwarding-Test, Critique (Simplified), plus Surface and Operational). Never one prompt doing five things.
 
 4. **Item-typed, provenance-tagged.** Every item declares its `item_type` and lists which pass(es) produced or tagged it. Downstream consumers query by type; auditors trace by provenance.
 
@@ -33,7 +33,7 @@ The orchestration maintains a single in-flight extraction state through the work
 
 - **`items`** — accumulating list of typed items. Each pass appends new items and/or modifies existing items (adding `framework_tags`, adding fields like `owner` to commitment items).
 - **`framework_notes`** — a dict keyed by pass name. Each pass that produces a Framework Notes contribution writes its block here.
-- **`metadata`** — accumulating frontmatter fields (account, date, mode, participants, passes_run, passes_failed, no_logo_rating).
+- **`metadata`** — accumulating frontmatter fields (account, date, mode, participants, passes_run, passes_failed, specificity_rating).
 
 What each pass receives as input:
 - The transcript
@@ -44,7 +44,7 @@ What each pass receives as input:
 What each pass returns:
 - New items to append to `items`, OR modifications to existing items (adding tags or fields)
 - A Framework Notes block to add to `framework_notes`
-- Optional metadata contributions (e.g., Orlob contributes `no_logo_rating` to `metadata`)
+- Optional metadata contributions (e.g., Discovery-Depth contributes `specificity_rating` to `metadata`)
 
 Passes do **not** re-extract content already captured. They build on the running state.
 
@@ -77,7 +77,7 @@ Read [references/mode-profiles.md](references/mode-profiles.md). Apply auto-dete
 4. Default to `sales-call` on uncertainty
 
 State the detected mode in one line and proceed unless the user overrides:
-> "Detected mode: **demo** — running Surface, Orlob, Nasralla, Bredvick (simplified), and Operational with capability-to-pain emphasis. Override?"
+> "Detected mode: **demo** — running Surface, Discovery-Depth, Forwarding-Test, Critique (Simplified), and Operational with capability-to-pain emphasis. Override?"
 
 Look up the mode's pass list and emphases in `mode-profiles.md`.
 
@@ -99,7 +99,7 @@ Look up the mode's pass list and emphases in `mode-profiles.md`.
 
 For each pass in the mode profile's pass list, in order:
 
-1. **Read the pass reference file** — `references/<pass>-pass.md` (e.g., `references/surface-pass.md`, `references/orlob-pass.md`).
+1. **Read the pass reference file** — `references/<pass>-pass.md` (e.g., `references/surface-pass.md`, `references/discovery-depth-pass.md`).
 
 2. **Construct the focused extraction prompt internally**, combining:
    - the loaded reference's extraction priorities, item types, quality standards, and prompt-shaping guidance
@@ -115,9 +115,9 @@ The five passes:
 | Pass | Reference | Job |
 |------|-----------|-----|
 | Surface | [references/surface-pass.md](references/surface-pass.md) | Capture what was said. Faithful items with quotes. |
-| Orlob | [references/orlob-pass.md](references/orlob-pass.md) | Three-bucket classification, phase tagging, No Logo Test, quantified impact. |
-| Nasralla | [references/nasralla-pass.md](references/nasralla-pass.md) | Soundbite candidates, cost-of-inaction, metric-that-matters. |
-| Bredvick (simplified) | [references/bredvick-pass.md](references/bredvick-pass.md) | Gap detection for stage; glossed-over moments. **No cross-call contradiction detection in v1.** |
+| Discovery-Depth | [references/discovery-depth-pass.md](references/discovery-depth-pass.md) | Three-bucket classification, phase tagging, specificity rating, quantified impact. |
+| Forwarding-Test | [references/forwarding-test-pass.md](references/forwarding-test-pass.md) | Soundbite candidates, cost-of-inaction, metric-that-matters. |
+| Critique (Simplified) | [references/critique-pass.md](references/critique-pass.md) | Gap detection for stage; glossed-over moments. **No cross-call contradiction detection in v1.** |
 | Operational | [references/operational-pass.md](references/operational-pass.md) | Stakeholders, decisions/commitments, signals (happy ears, asymmetry, energy, risk). Mode-specific emphases. |
 
 ### Phase 5: Collate
@@ -138,7 +138,7 @@ After all passes run, normalize and deduplicate the accumulated `items` list.
 - Combine `framework_tags` arrays (deduped).
 - Keep all other fields from the *first* item (which was created earlier in the pass sequence). If a later pass added structured fields (e.g., Operational pass added `owner`/`timeframe` to a Surface `commitment`), those should be preserved — they were attached to the existing item, not created on a new item, so this case isn't actually a dedup.
 
-**Step 4 — Sort within each group.** Order items by source-of-discovery: first-pass-found first (Surface items appear before Bredvick-only items in the Items section). Within a single pass, preserve the order the pass returned them.
+**Step 4 — Sort within each group.** Order items by source-of-discovery: first-pass-found first (Surface items appear before Critique-only items in the Items section). Within a single pass, preserve the order the pass returned them.
 
 **Step 5 — Compute `item_count_by_type`.** Count items per type for the frontmatter `summary_stats.item_count_by_type`.
 
@@ -153,14 +153,14 @@ Build the artifact per [references/artifact-schema.md](references/artifact-schem
 - `participants` from `metadata`
 - `passes_run` from `metadata` (in execution order)
 - `passes_failed` from `metadata` (empty array if none)
-- `no_logo_rating` from `metadata` (omit field entirely if Orlob didn't run or didn't produce one — common for `internal-deal-chat` mode)
+- `specificity_rating` from `metadata` (omit field entirely if Discovery-Depth didn't run or didn't produce one — common for `internal-deal-chat` mode)
 - `summary_stats.item_count_total` and `summary_stats.item_count_by_type` computed in Phase 5
 - `raw_transcript: ../transcripts/<filename>` pointer
 
 **Step 2 — TL;DR composition.** Generate 3 sentences max by combining:
-- One sentence on the dominant business problem (from items tagged `orlob:business-problem` if present, else from the most-prominent `buyer-statement` items, else "Internal deal-chat — no buyer in the room")
+- One sentence on the dominant business problem (from items tagged `discovery-depth:business-problem` if present, else from the most-prominent `buyer-statement` items, else "Internal deal-chat — no buyer in the room")
 - One sentence on key signals (from Operational pass: stakeholder identification, commitment asymmetry, trigger events)
-- One sentence on what's open or worth probing (from Bredvick gaps and hypotheses, or from `open-question` items)
+- One sentence on what's open or worth probing (from Critique gaps and hypotheses, or from `open-question` items)
 
 The TL;DR should pass the forwarding test — read it as if a champion were forwarding to a CFO. If it sounds like AI-summary-speak, rewrite using buyer language from the items.
 
@@ -168,7 +168,7 @@ The TL;DR should pass the forwarding test — read it as if a champion were forw
 
 Each item rendered per the layout in `artifact-schema.md`: heading with `[<item_type>] <Title>`, metadata block, optional blockquote, summary, why-it-matters, optional buyer-language, separator.
 
-**Step 4 — Framework Notes.** For each pass that produced a Framework Notes contribution (in this order: Orlob, Nasralla, Bredvick-simplified, Operational), emit its block per its reference file's template. Include the v1-limitation footer in the Bredvick block. Skip passes that didn't run or failed.
+**Step 4 — Framework Notes.** For each pass that produced a Framework Notes contribution (in this order: Discovery-Depth, Forwarding-Test, Critique (Simplified), Operational), emit its block per its reference file's template. Include the v1-limitation footer in the Critique block. Skip passes that didn't run or failed.
 
 No separate synthesis pass — Framework Notes are assembled from per-pass outputs already collected during Phase 4.
 
@@ -190,12 +190,12 @@ If a file with that exact name already exists, append a sequence suffix (`-2.md`
 > **Mode:** `<mode>` (detected via: `<mode_detected_via>`)
 > **Passes run:** `[<list>]`
 > [If `passes_failed` is non-empty: `**⚠ Passes failed:** [<list>] — partial extraction; some signals may be missing.`]
-> [If `no_logo_rating` was produced: `**No Logo rating:** <rating>/5`]
+> [If `specificity_rating` was produced: `**specificity rating:** <rating>/5`]
 >
 > **TL;DR:**
 > <three-sentence TL;DR from the artifact>
 >
-> [If significant gaps were flagged by Bredvick: `**Worth probing next call:** <list of bredvick gaps and hypotheses>`]
+> [If significant gaps were flagged by Critique: `**Worth probing next call:** <list of bredvick gaps and hypotheses>`]
 > [If `mode_detected_via: default`: `**Note:** Mode was a default-fallback. Confirm or override before relying on this extraction.`]
 
 This report is the "feedback summary" — it's what makes processing a transcript worth doing. The user sees it immediately; the extraction file is there for downstream consumption.
@@ -210,7 +210,7 @@ When the user requests deeper analysis of a previously processed input ("deep di
 
 2. **Read both files** — original raw input AND existing extraction.
 
-3. **Run a deeper Bredvick-style pass** — explicitly look for:
+3. **Run a deeper Critique-style pass** — explicitly look for:
    - **Dropped threads** — topics raised or hinted at, not followed up
    - **Subtle signals** — hesitation, qualifiers, energy shifts
    - **Implications not explored** — statements implying something important, not unpacked
@@ -232,7 +232,7 @@ Cross-call contradiction detection is **deferred to a future version** once the 
 ## What This Skill Does NOT Do
 
 - **No coaching.** Does not evaluate seller performance. A coaching skill can do its own pass on the raw transcript.
-- **No framework scoring.** Does not score against MEDDPICC, SPICED, or any methodology end-to-end. Lens passes apply specific framework lenses (Orlob's 3-bucket, Nasralla's forwarding test, etc.) but do not produce holistic deal scores. `sales-deal-review` is the scoring skill.
+- **No framework scoring.** Does not score against MEDDPICC, SPICED, or any methodology end-to-end. Lens passes apply specific framework lenses (the 3-bucket, the forwarding test, etc.) but do not produce holistic deal scores. `sales-deal-review` is the scoring skill.
 - **No cross-transcript synthesis.** Processes one input at a time. Cross-call queries, contradictions, and per-account synthesis are deferred to the Q2 storage/retrieval layer.
 - **No artifact generation.** Does not produce follow-up emails, business cases, or demo plans. Those are separate downstream skills that read from the extraction artifacts.
 - **No external integrations.** Input is pasted text. No Gong API, no Salesforce sync.
@@ -247,8 +247,8 @@ Cross-call contradiction detection is **deferred to a future version** once the 
 |------|---------|
 | [references/mode-profiles.md](references/mode-profiles.md) | Three input modes; pass selections; mode-specific emphases; auto-detection signals. |
 | [references/surface-pass.md](references/surface-pass.md) | What was said, faithfully. Item types, buyer-language preservation, quote handling. |
-| [references/orlob-pass.md](references/orlob-pass.md) | Discovery depth — 3-bucket classification, phase tagging, No Logo Test, quantified impact. |
-| [references/nasralla-pass.md](references/nasralla-pass.md) | Forwarding test — soundbite candidates, cost-of-inaction, metric-that-matters. |
-| [references/bredvick-pass.md](references/bredvick-pass.md) | Critique pass (simplified) — gaps for stage, glossed-over moments. |
+| [references/discovery-depth-pass.md](references/discovery-depth-pass.md) | Discovery depth — 3-bucket classification, phase tagging, specificity rating, quantified impact. |
+| [references/forwarding-test-pass.md](references/forwarding-test-pass.md) | Forwarding test — soundbite candidates, cost-of-inaction, metric-that-matters. |
+| [references/critique-pass.md](references/critique-pass.md) | Critique pass (simplified) — gaps for stage, glossed-over moments. |
 | [references/operational-pass.md](references/operational-pass.md) | Stakeholders, decisions/commitments, operational signals; mode-specific emphases. |
 | [references/artifact-schema.md](references/artifact-schema.md) | File location, frontmatter schema, item layout, item-type catalogue, worked example. |

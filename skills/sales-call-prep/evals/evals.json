@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "prep me for my discovery call with Acme Corp tomorrow — we had one call already where they mentioned close rates dropping but I didn't get into root causes or impact",
-      "expected_output": "Should load existing extractions and identify Problem as Emerging but Root Causes, Impact, and Urgency as gaps. Should generate questions focused on cause analysis and negative impact. Questions should use Orlob's open-before-targeted sequencing. Should include an opening play that recaps what was heard on call 1. Should include specific questions with humbling disclaimers and 'to what extent' patterns.",
+      "expected_output": "Should load existing extractions and identify Problem as Emerging but Root Causes, Impact, and Urgency as gaps. Should generate questions focused on cause analysis and negative impact. Questions should use the open-before-targeted sequencing. Should include an opening play that recaps what was heard on call 1. Should include specific questions with humbling disclaimers and 'to what extent' patterns.",
       "assertions": [
         "Reads existing extractions for Acme Corp",
         "Identifies root cause, impact, and urgency as primary gaps",
@@ -66,7 +66,7 @@
     {
       "id": 5,
       "prompt": "I have an exec meeting with Meridian Health's CFO next week. First time meeting her — my champion set it up",
-      "expected_output": "Should recognize this is a C-level executive meeting and adjust approach. Should lead with insight not questions (Orlob/Charles C-level pattern). Should generate questions about business impact and financial metrics since it's a CFO. Should include questions that validate what the champion has shared. Should keep questions concise — executives have less patience for long discovery.",
+      "expected_output": "Should recognize this is a C-level executive meeting and adjust approach. Should lead with insight not questions (C-level executive pattern). Should generate questions about business impact and financial metrics since it's a CFO. Should include questions that validate what the champion has shared. Should keep questions concise — executives have less patience for long discovery.",
       "assertions": [
         "Recognizes C-level executive context and adjusts approach",
         "Opening leads with insight, not questions",

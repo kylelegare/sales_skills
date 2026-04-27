@@ -5,7 +5,7 @@ description: "Generates specific discovery questions and a call plan for an upco
 
 # Sales Call Prep
 
-Generate a call plan with specific, ready-to-ask discovery questions for an upcoming conversation. Every question is grounded in what's known (from extractions and research) and what's missing (from deal review gaps). Questions follow proven methodology — Orlob's depth chain, Charles's question formulas, humbling disclaimers, "to what extent" patterns — so they sound natural, not robotic.
+Generate a call plan with specific, ready-to-ask discovery questions for an upcoming conversation. Every question is grounded in what's known (from extractions and research) and what's missing (from deal review gaps). Questions follow proven methodology — the depth chain, question formulas, humbling disclaimers, "to what extent" patterns — so they sound natural, not robotic.
 
 ## Core Principles
 

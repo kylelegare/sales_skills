@@ -6,16 +6,16 @@ Voice-note and prospect-chat modes are **NOT defined here** — both are deferre
 
 ## Pass Selection Matrix
 
-| Mode | Surface | Orlob | Nasralla | Bredvick (simplified) | Operational |
+| Mode | Surface | Discovery-Depth | Forwarding-Test | Critique (Simplified) | Operational |
 |------|:-------:|:-----:|:--------:|:---------------------:|:-----------:|
 | `sales-call` | ✓ | ✓ | ✓ | ✓ | ✓ |
 | `demo` | ✓ | ✓ | ✓ | ✓ | ✓ + tech-reaction emphasis |
 | `internal-deal-chat` | ✓ | — | — | ✓ | ✓ + decisions/owners/dissent emphasis |
 
 **Why some passes are skipped for `internal-deal-chat`:**
-- Orlob is buyer-discovery focused — no buyer in the room to discover.
-- Nasralla is forwarding-test focused — internal-chat output isn't being forwarded to a buyer.
-- Surface still runs because internal language matters; Bredvick still runs because gap/glossed-over patterns apply within team thinking; Operational dominates because it's the natural shape of internal discussion.
+- Discovery-Depth applies on the buyer-discovery axis — no buyer in the room to discover.
+- Forwarding-Test only applies when there’s a buyer to forward to — internal-chat output isn't being forwarded to a buyer.
+- Surface still runs because internal language matters; Critique still runs because gap/glossed-over patterns apply within team thinking; Operational dominates because it's the natural shape of internal discussion.
 
 ## Mode Profiles (Detail)
 
@@ -23,15 +23,15 @@ Voice-note and prospect-chat modes are **NOT defined here** — both are deferre
 
 **When this mode applies:** Any conversation with at least one buyer-side participant — discovery, qualification, exec meetings, pricing/negotiation calls, check-ins, QBRs, kickoffs.
 
-**Passes run:** Surface → Orlob → Nasralla → Bredvick (simplified) → Operational. **All five.**
+**Passes run:** Surface → Discovery-Depth → Forwarding-Test → Critique (Simplified) → Operational. **All five.**
 
 **Emphases:** None beyond each pass's default. This is the baseline mode.
 
 **Item-type distribution to expect:**
 - Surface: `buyer-statement`, `seller-statement` (only when carrying commitment or context), `commitment`, `open-question`
-- Orlob: framework_tags layered onto Surface items (`orlob:business-problem`, `orlob:root-cause`, `orlob:desired-solution`, `orlob:phase-X`); plus a `no_logo_rating` summary
-- Nasralla: framework_tags + Framework Notes contribution (soundbite candidates, cost-of-inaction)
-- Bredvick: `gap-for-stage`, `glossed-over-moment`, `hypothesis`
+- Discovery-Depth: framework_tags layered onto Surface items (`discovery-depth:business-problem`, `discovery-depth:root-cause`, `discovery-depth:desired-solution`, `discovery-depth:phase-X`); plus a `specificity_rating` summary
+- Forwarding-Test: framework_tags + Framework Notes contribution (soundbite candidates, cost-of-inaction)
+- Critique: `gap-for-stage`, `glossed-over-moment`, `hypothesis`
 - Operational: `stakeholder-mention`, `commitment` (with owner/timeframe), `trigger-event`, `competitor-mention`, `happy-ears-flag`, `risk-signal`
 
 ---
@@ -40,14 +40,14 @@ Voice-note and prospect-chat modes are **NOT defined here** — both are deferre
 
 **When this mode applies:** Product demonstrations and walkthroughs where the seller is showing the product and the buyer is reacting. Often co-occurs with discovery (a discovery-then-demo call should be processed as `demo` if the demo is the dominant phase, otherwise as `sales-call`).
 
-**Passes run:** Surface → Orlob → Nasralla → Bredvick (simplified) → Operational. **All five.**
+**Passes run:** Surface → Discovery-Depth → Forwarding-Test → Critique (Simplified) → Operational. **All five.**
 
 **Emphases (added to default behavior):**
 - **Operational pass adds `technical-reaction` items.** Capture moments where the buyer leaned in vs. tuned out, asked clarifying questions, expressed surprise (positive or negative), or fell silent during specific capabilities. Note timestamp or location in the transcript when possible.
 - **Capability-to-pain mapping.** When the seller demonstrates a capability that maps to a buyer-stated pain (from this call or a prior extraction visible in context), flag it explicitly. When the seller demonstrates a capability that does NOT map to any stated pain, that's also a flag (potential demo-bloat).
 - **Anti-pattern detection.** If the seller demonstrates something that contradicts a buyer-stated root cause (e.g., buyer said "we need a unified UX," seller demos a separate admin portal), flag it as a `risk-signal` with `framework_tag: anti-pattern`.
 
-**Item-type distribution to expect:** Same as sales-call plus heavier `technical-reaction` and `capability-pain-mapping` from Operational. Less weight on Orlob's discovery items unless there's a discovery phase in the call.
+**Item-type distribution to expect:** Same as sales-call plus heavier `technical-reaction` and `capability-pain-mapping` from Operational. Less weight on the discovery items unless there's a discovery phase in the call.
 
 ---
 
@@ -55,7 +55,7 @@ Voice-note and prospect-chat modes are **NOT defined here** — both are deferre
 
 **When this mode applies:** Internal team discussions about a specific deal — strategy syncs, pre-call prep, post-call debriefs, Slack threads about an account, deal-review meetings, "what should we do about Acme?" conversations.
 
-**Passes run:** Surface → Bredvick (simplified) → Operational. **Three passes — Orlob and Nasralla skipped.**
+**Passes run:** Surface → Critique (Simplified) → Operational. **Three passes — Discovery-Depth and Forwarding-Test skipped.**
 
 **Emphases (added to default behavior):**
 - **Operational pass dominates** and prioritizes:
@@ -65,9 +65,9 @@ Voice-note and prospect-chat modes are **NOT defined here** — both are deferre
   - `hypothesis-update` items (how the team's read of the buyer / deal changed)
   - `dissent` items (where teammates disagreed and how it was resolved or not)
 - **Surface items** flag `seller-statement` for everything (no buyer in the room) but should still preserve specific phrasing — internal codenames, named hypotheses, idioms ("we're in the dark on procurement").
-- **Bredvick (simplified) pass** reframes from "what's missing for the BUYER's stage" to "what's missing for OUR understanding of the deal" — gaps in our model of the account, glossed-over assumptions about the buyer.
+- **Critique (Simplified) pass** reframes from "what's missing for the BUYER's stage" to "what's missing for OUR understanding of the deal" — gaps in our model of the account, glossed-over assumptions about the buyer.
 
-**Item-type distribution to expect:** Light on Surface items; heavy on Operational items (`decision`, `owner-assignment`, `concern`, `hypothesis-update`); some Bredvick gaps and glossed-over moments. NO Orlob or Nasralla framework_tags.
+**Item-type distribution to expect:** Light on Surface items; heavy on Operational items (`decision`, `owner-assignment`, `concern`, `hypothesis-update`); some Critique gaps and glossed-over moments. NO Discovery-Depth or Forwarding-Test framework_tags.
 
 ---
 

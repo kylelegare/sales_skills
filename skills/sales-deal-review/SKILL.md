@@ -24,20 +24,20 @@ Score deal health based on what buyers have actually said — not what the AE ho
 These are not a sales framework. They're the universal evidence categories that every framework draws from.
 
 ### 1. Problem
-**What we're scoring:** Has the buyer articulated a specific business problem — a suffering metric the decision maker owns? Is it a surface complaint or a root cause? Is it their words or our projection? Does it pass the No Logo Test?
+**What we're scoring:** Has the buyer articulated a specific business problem — a suffering metric the decision maker owns? Is it a surface complaint or a root cause? Is it their words or our projection? Does it pass the specificity rating?
 
-**The No Logo Test (Orlob):** If you removed the account name from your problem description, could you identify which deal this is? A problem description so unique and detailed it could only apply to one account = strong discovery. A generic description that could describe any company = weak discovery. Rate 1-5.
+**The specificity rating (Discovery-Depth):** If you removed the account name from your problem description, could you identify which deal this is? A problem description so unique and detailed it could only apply to one account = strong discovery. A generic description that could describe any company = weak discovery. Rate 1-5.
 
 **Strong evidence looks like:**
 - Buyer describes a specific suffering metric in their own words (direct quote) — e.g., "close rates dropped from 25% to 20%"
-- Problem passes the No Logo Test (unique, detailed, account-specific)
+- Problem passes the specificity rating (unique, detailed, account-specific)
 - Root causes have been explored — buyer has articulated WHY the problem is happening
 - Problem is "above the line" — it's in the decision maker's top priorities, not a brush fire
 - Buyer connects the problem to business outcomes they own
 
 **Weak evidence looks like:**
 - Seller described the problem and buyer said "yeah"
-- Problem is generic ("we need to be more efficient") — fails the No Logo Test
+- Problem is generic ("we need to be more efficient") — fails the specificity rating
 - Only root causes or symptoms surfaced, no connection to a suffering business metric
 - Problem may be real but "below the line" — not in the decision maker's top 3-5 priorities
 - Problem is assumed from industry trends, not stated by the buyer
@@ -230,7 +230,7 @@ If the user asks for a specific framework view ("show me the MEDDPICC", "where a
 - **E**xpected Decision → Process + Approach
 - **D**ecision → People + Process
 
-**Nasralla Business Case mapping:**
+**Forwarding-Test Business Case mapping:**
 - "Because of" → Urgency (the change creating urgency)
 - Problem definition → Problem + Impact
 - Required capabilities → Approach

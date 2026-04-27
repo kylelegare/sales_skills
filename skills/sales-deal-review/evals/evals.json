@@ -59,11 +59,11 @@
     },
     {
       "id": 5,
-      "prompt": "what are we missing on the Acme deal? also can you check if they passed the No Logo Test?",
-      "expected_output": "Should focus the review on What's Missing and explicitly run the No Logo Test on the problem description. Should rate the problem description 1-5 on uniqueness — could this description only apply to Acme, or could it describe any company?",
+      "prompt": "what are we missing on the Acme deal? also can you check if they passed the specificity rating?",
+      "expected_output": "Should focus the review on What's Missing and explicitly run the specificity rating on the problem description. Should rate the problem description 1-5 on uniqueness — could this description only apply to Acme, or could it describe any company?",
       "assertions": [
         "Emphasizes the What's Missing section per user's focus",
-        "Explicitly runs the No Logo Test and rates 1-5",
+        "Explicitly runs the specificity rating and rates 1-5",
         "Evaluates whether the problem description is unique to this account",
         "Provides specific gaps with actionable next steps"
       ],

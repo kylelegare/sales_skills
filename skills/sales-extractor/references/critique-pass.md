@@ -1,10 +1,10 @@
-# Bredvick Pass (Simplified for v1)
+# Critique Pass (Simplified for v1)
 
 The critique lens. Asks: **what should be here that isn't?**
 
-Where Surface, Orlob, and Nasralla extract or tag what *was* said, the Bredvick pass surfaces what was *missing*, *implied but unexplored*, or *steered around*. This is the only lens pass that creates new items rather than tagging existing Surface items.
+Where Surface, Discovery-Depth, and Forwarding-Test extract or tag what *was* said, the critique pass surfaces what was *missing*, *implied but unexplored*, or *steered around*. This is the only lens pass that creates new items rather than tagging existing Surface items.
 
-This pass is **simplified for v1**. Cross-call contradiction detection — where Bredvick really shines — is **explicitly deferred** until the storage/retrieval layer (Q2) is built. Until then, this pass operates within a single call.
+This pass is **simplified for v1**. Cross-call contradiction detection — where Critique really shines — is **explicitly deferred** until the storage/retrieval layer (Q2) is built. Until then, this pass operates within a single call.
 
 ## Non-Goals for v1 (Explicit)
 
@@ -30,7 +30,7 @@ A first discovery call won't have budget detail or paper-process clarity. Don't 
 
 1. The mode (sales-call → discovery-shaped expectations; demo → product-fit-shaped expectations; internal-deal-chat → strategy-clarity-shaped expectations)
 2. The apparent deal stage (which the call may signal — early discovery, late-stage, exec, etc.)
-3. The specific items already produced by Surface, Orlob, Nasralla
+3. The specific items already produced by Surface, Discovery-Depth, Forwarding-Test
 
 Examples of stage-aware gaps:
 
@@ -75,7 +75,7 @@ Hypotheses are inputs to thinking, not deal-driving claims. They feed the next c
 A Framework Notes block:
 
 ```markdown
-### Bredvick (Critique — Simplified)
+### Critique (Simplified)
 
 **Stage-aware gaps:**
 - [Gap 1 with 1-line justification — "reasonable to expect because..."]
@@ -94,10 +94,10 @@ A Framework Notes block:
 
 ## Prompt-Shaping Guidance
 
-The Bredvick pass receives the transcript AND the Surface, Orlob, and Nasralla outputs. The model should:
+The critique pass receives the transcript AND the Surface, Discovery-Depth, and Forwarding-Test outputs. The model should:
 
 **Be told to do:**
-- Read the transcript end-to-end with the Orlob/Nasralla tags in mind
+- Read the transcript end-to-end with the Discovery-Depth/Forwarding-Test tags in mind
 - For each implicit-but-unstated thing the call should have surfaced (given mode, stage, and what was actually produced), generate a `gap-for-stage` item with a 1-line "reasonable to expect because..." justification
 - Scan the transcript for hedging language, topic pivots, hesitations, vague answers, and deflections — generate `glossed-over-moment` items with verbatim language
 - Where multiple items in this call point toward an unstated pattern, generate a `hypothesis` item with prose-confidence
@@ -109,7 +109,7 @@ The Bredvick pass receives the transcript AND the Surface, Orlob, and Nasralla o
 - Fabricate gaps that aren't reasonable to expect given mode/stage
 - Hypothesize wildly without pattern evidence
 - Use numeric confidence on hypotheses (prose only)
-- Re-extract or re-tag items already handled by Surface, Orlob, or Nasralla
+- Re-extract or re-tag items already handled by Surface, Discovery-Depth, or Forwarding-Test
 - Identify operational signals like commitment asymmetry (Operational pass)
 
 **Output (all NEW items, not tags on existing items):**
@@ -121,10 +121,10 @@ speaker:
 source:
 quote:
 summary: Discovery surfaced two problem statements but neither was quantified. Reasonable to expect on a substantive discovery call: specific metrics (close-rate %, dollar impact, number of affected accounts).
-why_matters: Without quantification, downstream artifacts (Nasralla soundbites, business case) lack load-bearing data. Likely the next call should explicitly probe for the metric.
+why_matters: Without quantification, downstream artifacts (Forwarding-Test soundbites, business case) lack load-bearing data. Likely the next call should explicitly probe for the metric.
 buyer_language:
 provenance: [bredvick]
-framework_tags: [bredvick:gap-for-stage]
+framework_tags: [critique:gap-for-stage]
 ```
 
 ```yaml
@@ -137,7 +137,7 @@ summary: Buyer started to discuss procurement, hedged, then pivoted to product u
 why_matters: Procurement is often where deals stall. The hedge + pivot pattern suggests buyer may not know the process or may be uncomfortable with it. Worth probing directly on next call.
 buyer_language:
 provenance: [bredvick]
-framework_tags: [bredvick:glossed-over-moment]
+framework_tags: [critique:glossed-over-moment]
 ```
 
 ```yaml
@@ -150,14 +150,14 @@ summary: Buyer was specific about technical capabilities and quantified business
 why_matters: Hypothesis worth probing — direct security questions on next call may surface the real underlying stakeholder concern. If correct, this changes the closing motion.
 buyer_language:
 provenance: [bredvick]
-framework_tags: [bredvick:hypothesis, bredvick:prose-confidence-plausible]
+framework_tags: [critique:hypothesis, critique:prose-confidence-plausible]
 ```
 
 ## Worked Example: Decision Logic on Whether to Flag a Gap
 
 Setup: this is the second discovery call with a mid-market account. Surface produced 4 buyer-statement items about close rates dropping, root causes, and team dynamics. No quantified metrics on cost-of-inaction. No mention of procurement or paper process.
 
-Bredvick decisions:
+Critique decisions:
 
 1. **Quantified cost-of-inaction missing** → flag as `gap-for-stage`. Reasonable to expect by call 2: the dollar impact of the close-rate drop. Justification: "Discovery has surfaced the problem and root causes but not the cost. Without cost, urgency can't be argued."
 

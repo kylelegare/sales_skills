@@ -72,7 +72,7 @@ If owner or timeframe are missing from the transcript, flag explicitly:
 - `owner: unstated` — note in `why_matters` that the commitment lacks an owner
 - `timeframe: unstated` — note that the timeframe is open-ended
 
-These flags feed the Framework Notes commitment-asymmetry block AND the Bredvick gap-detection (an unstated-owner commitment is often a gap-for-stage).
+These flags feed the Framework Notes commitment-asymmetry block AND the Critique gap-detection (an unstated-owner commitment is often a gap-for-stage).
 
 ### Trigger Events vs Wishful Thinking
 
@@ -150,7 +150,7 @@ Mode-specific additions to Framework Notes:
 
 ## Prompt-Shaping Guidance
 
-The Operational pass receives the transcript AND the Surface, Orlob, Nasralla, and Bredvick outputs. The model should:
+The Operational pass receives the transcript AND the Surface, Discovery-Depth, Forwarding-Test, and Critique outputs. The model should:
 
 **Be told to do:**
 - Generate `stakeholder-mention` items for every named or role-described person in the call
@@ -164,7 +164,7 @@ The Operational pass receives the transcript AND the Surface, Orlob, Nasralla, a
 
 **Be told to NOT do:**
 - Re-extract content already captured by Surface
-- Apply Orlob 3-bucket or Nasralla soundbite tags (those passes already ran)
+- Apply Discovery-Depth 3-bucket or Forwarding-Test soundbite tags (those passes already ran)
 - Resolve stakeholder identities across calls (deferred to v1.5+)
 - Score the deal holistically (deal-review's job)
 - Fabricate trigger events from seller-driven language
@@ -233,5 +233,5 @@ This is the kind of honest read the Operational pass exists to surface.
 - No deal scoring (deal-review's job)
 - No artifact generation (downstream skills consume Operational items)
 - No re-extraction of Surface content
-- No Orlob/Nasralla framework tagging (already done)
-- No Bredvick gap detection (handled by Bredvick pass — though Operational risk-signals and Bredvick gaps may overlap; let them coexist with their own provenance)
+- No Discovery-Depth/Forwarding-Test framework tagging (already done)
+- No Critique gap detection (handled by critique pass — though Operational risk-signals and Critique gaps may overlap; let them coexist with their own provenance)

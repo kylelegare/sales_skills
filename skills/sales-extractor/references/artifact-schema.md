@@ -38,7 +38,7 @@ passes_run:                           # required — list of passes that ran
   - bredvick
   - operational
 passes_failed: []                     # required (empty array if none)
-no_logo_rating: <1-5>                 # optional — present when Orlob pass ran and produced one
+specificity_rating: <1-5>                 # optional — present when discovery-depth pass ran and produced one
 summary_stats:                        # optional but recommended
   item_count_total: <int>
   item_count_by_type:
@@ -53,7 +53,7 @@ raw_transcript: ../transcripts/YYYY-MM-DD-<mode>.md  # optional — pointer back
 
 - `mode_detected_via` records HOW the mode was decided. Use this when extraction quality looks off — the detection signal is the first thing to check.
 - `passes_run` ALWAYS lists the passes that successfully completed (in execution order). `passes_failed` lists any that errored or returned empty. Together they document the pipeline's actual run.
-- `no_logo_rating` is present only when the Orlob pass ran AND produced a rating. Internal-deal-chat artifacts (where Orlob is skipped) will not have this field.
+- `specificity_rating` is present only when the discovery-depth pass ran AND produced a rating. Internal-deal-chat artifacts (where Discovery-Depth is skipped) will not have this field.
 - `summary_stats` are optional but make downstream queries faster. The orchestration pass computes them at composition time.
 
 ## Body Structure
@@ -63,7 +63,7 @@ raw_transcript: ../transcripts/YYYY-MM-DD-<mode>.md  # optional — pointer back
 
 ## TL;DR
 
-<3 sentences max. Composed from operational-pass key items (stakeholders, commitments, risk signals) and Nasralla soundbite candidates. Forwarding-test should pass — this should read like a faithful human summary, not an AI report.>
+<3 sentences max. Composed from operational-pass key items (stakeholders, commitments, risk signals) and Forwarding-Test soundbite candidates. Forwarding-test should pass — this should read like a faithful human summary, not an AI report.>
 
 ## Items
 
@@ -77,14 +77,14 @@ raw_transcript: ../transcripts/YYYY-MM-DD-<mode>.md  # optional — pointer back
 
 ## Framework Notes
 
-### Orlob (Discovery Depth)
-<per orlob-pass.md template — only present if Orlob pass ran>
+### Discovery Depth
+<per discovery-depth-pass.md template — only present if discovery-depth pass ran>
 
-### Nasralla (Forwarding Test)
-<per nasralla-pass.md template — only present if Nasralla pass ran>
+### Forwarding Test
+<per forwarding-test-pass.md template — only present if forwarding-test pass ran>
 
-### Bredvick (Critique — Simplified)
-<per bredvick-pass.md template — always present when Bredvick pass ran>
+### Critique (Simplified)
+<per critique-pass.md template — always present when critique pass ran>
 
 ### Operational
 <per operational-pass.md template — always present>
@@ -131,13 +131,13 @@ The complete catalogue for v1. Lens references must produce items that fit this 
 | `commitment` | summary, why_matters, provenance | speaker, source, quote, owner, timeframe, commitment_side, framework_tags |
 | `open-question` | speaker, source, summary, why_matters, provenance | quote, framework_tags |
 
-### From Bredvick (Simplified) Pass
+### From Critique (Simplified) Pass
 
 | Item type | Required fields | Optional fields |
 |-----------|----------------|-----------------|
-| `gap-for-stage` | summary, why_matters, provenance, framework_tags=[bredvick:gap-for-stage] | (no speaker, source, or quote — these are about absence) |
-| `glossed-over-moment` | speaker, source=buyer, quote, summary, why_matters, provenance, framework_tags=[bredvick:glossed-over-moment] | buyer_language |
-| `hypothesis` | summary, why_matters, provenance, framework_tags=[bredvick:hypothesis, bredvick:prose-confidence-{strong\|plausible\|speculative}] | (no quote unless one supports the hypothesis) |
+| `gap-for-stage` | summary, why_matters, provenance, framework_tags=[critique:gap-for-stage] | (no speaker, source, or quote — these are about absence) |
+| `glossed-over-moment` | speaker, source=buyer, quote, summary, why_matters, provenance, framework_tags=[critique:glossed-over-moment] | buyer_language |
+| `hypothesis` | summary, why_matters, provenance, framework_tags=[critique:hypothesis, critique:prose-confidence-{strong\|plausible\|speculative}] | (no quote unless one supports the hypothesis) |
 
 ### From Operational Pass — All Modes
 
@@ -170,11 +170,11 @@ The complete catalogue for v1. Lens references must produce items that fit this 
 
 All framework tags use the `<pass>:<tag>` namespace.
 
-**Orlob tags:** `orlob:business-problem`, `orlob:root-cause`, `orlob:desired-solution`, `orlob:phase-1-problem`, `orlob:phase-2-cause`, `orlob:phase-3-impact`, `orlob:phase-4-future-state`, `orlob:quantified`, `orlob:above-the-line`, `orlob:below-the-line`
+**Discovery-Depth tags:** `discovery-depth:business-problem`, `discovery-depth:root-cause`, `discovery-depth:desired-solution`, `discovery-depth:phase-1-problem`, `discovery-depth:phase-2-cause`, `discovery-depth:phase-3-impact`, `discovery-depth:phase-4-future-state`, `discovery-depth:quantified`, `discovery-depth:above-the-line`, `discovery-depth:below-the-line`
 
-**Nasralla tags:** `nasralla:soundbite-candidate`, `nasralla:cost-of-inaction`, `nasralla:metric-that-matters`
+**Forwarding-Test tags:** `forwarding-test:soundbite-candidate`, `forwarding-test:cost-of-inaction`, `forwarding-test:metric-that-matters`
 
-**Bredvick tags:** `bredvick:gap-for-stage`, `bredvick:glossed-over-moment`, `bredvick:hypothesis`, `bredvick:prose-confidence-strong`, `bredvick:prose-confidence-plausible`, `bredvick:prose-confidence-speculative`
+**Critique tags:** `critique:gap-for-stage`, `critique:glossed-over-moment`, `critique:hypothesis`, `critique:prose-confidence-strong`, `critique:prose-confidence-plausible`, `critique:prose-confidence-speculative`
 
 **Operational tags:** `operational:stakeholder-champion`, `operational:stakeholder-economic-buyer`, `operational:stakeholder-technical-buyer`, `operational:stakeholder-influencer`, `operational:stakeholder-blocker`, `operational:role-<title>`, `operational:commitment-with-structure`, `operational:happy-ears`, `operational:risk-signal`, `operational:technical-reaction`, `operational:decision`, `operational:owner-assignment`, `operational:concern`, `operational:hypothesis-update`, `operational:dissent`, `operational:anti-pattern`
 
@@ -185,8 +185,8 @@ New tags can be added as the model encounters edge cases — but additions shoul
 Every item has a `provenance` array listing the passes that produced or tagged it. Order matches the order passes ran:
 
 - **Item created by Surface only:** `provenance: [surface]`
-- **Item created by Surface, tagged by Orlob:** `provenance: [surface, orlob]`
-- **Item created by Bredvick (no Surface origin):** `provenance: [bredvick]`
+- **Item created by Surface, tagged by Discovery-Depth:** `provenance: [surface, orlob]`
+- **Item created by Critique (no Surface origin):** `provenance: [bredvick]`
 - **Item merged across passes (e.g., commitment created by Surface, structured by Operational):** `provenance: [surface, operational]`
 - **Failed pass:** does NOT appear in provenance — `passes_failed` in frontmatter is the canonical record.
 
@@ -219,7 +219,7 @@ passes_run:
   - bredvick
   - operational
 passes_failed: []
-no_logo_rating: 4
+specificity_rating: 4
 summary_stats:
   item_count_total: 14
   item_count_by_type:
@@ -248,7 +248,7 @@ Sarah Chen (VP Sales, champion) is dealing with a quantified close-rate decline 
 **Speaker:** Sarah Chen, VP Sales
 **Source:** buyer
 **Provenance:** [surface, orlob, nasralla]
-**Framework tags:** [orlob:business-problem, orlob:phase-1-problem, orlob:quantified, orlob:above-the-line, nasralla:soundbite-candidate, nasralla:metric-that-matters]
+**Framework tags:** [discovery-depth:business-problem, discovery-depth:phase-1-problem, discovery-depth:quantified, discovery-depth:above-the-line, forwarding-test:soundbite-candidate, forwarding-test:metric-that-matters]
 
 > "We've gone from a 25% close rate to about 19% in the last two quarters, and the result is we're now scrambling to backfill pipeline every month."
 
@@ -265,7 +265,7 @@ Sarah Chen (VP Sales, champion) is dealing with a quantified close-rate decline 
 **Speaker:** Sarah Chen, VP Sales
 **Source:** buyer
 **Provenance:** [surface, orlob]
-**Framework tags:** [orlob:root-cause, orlob:phase-2-cause]
+**Framework tags:** [discovery-depth:root-cause, discovery-depth:phase-2-cause]
 
 > "Honestly, our reps just don't run good discovery anymore. They jump to demo too fast."
 
@@ -341,12 +341,12 @@ Sarah Chen (VP Sales, champion) is dealing with a quantified close-rate decline 
 
 ---
 
-### Gap-for-Stage (Bredvick)
+### Gap-for-Stage (Critique)
 
 ### [gap-for-stage] Procurement-process owner unknown
 
 **Provenance:** [bredvick]
-**Framework tags:** [bredvick:gap-for-stage]
+**Framework tags:** [critique:gap-for-stage]
 
 **Summary:** Buyer cannot identify procurement-process owner ("it's its own thing"). Reasonable to expect by mid-cycle: a specific person or function.
 
@@ -356,9 +356,9 @@ Sarah Chen (VP Sales, champion) is dealing with a quantified close-rate decline 
 
 ## Framework Notes
 
-### Orlob (Discovery Depth)
+### Discovery Depth
 
-**No Logo Test rating:** 4/5 — Quantified close-rate decline (25% → 19%, two quarters) and buyer's distinctive language ("scrambling to backfill pipeline") makes the problem largely account-specific. Could plausibly apply to other VP Sales roles in the same vertical, but the specifics rule out most.
+**specificity rating rating:** 4/5 — Quantified close-rate decline (25% → 19%, two quarters) and buyer's distinctive language ("scrambling to backfill pipeline") makes the problem largely account-specific. Could plausibly apply to other VP Sales roles in the same vertical, but the specifics rule out most.
 
 **Three-bucket distribution:**
 - Business problems: 1 — Close rates dropping
@@ -376,7 +376,7 @@ Sarah Chen (VP Sales, champion) is dealing with a quantified close-rate decline 
 
 **Discovery depth assessment:** Discovery surfaced a quantified business problem and a root cause but did not explore negative impact (cost of inaction) or future-state buying criteria. Phase 3 and Phase 4 are the call's gap.
 
-### Nasralla (Forwarding Test)
+### Forwarding Test
 
 **Soundbite candidates:**
 
@@ -393,7 +393,7 @@ Sarah Chen (VP Sales, champion) is dealing with a quantified close-rate decline 
 
 **Forwarding-test assessment:** Strong material for a champion-forwardable recap email. The board-meeting trigger gives urgency. Future-state slot is missing — call 2 should explicitly probe what good looks like in their words.
 
-### Bredvick (Critique — Simplified)
+### Critique (Simplified)
 
 **Stage-aware gaps:**
 - Procurement-process owner unknown — reasonable to expect by mid-cycle

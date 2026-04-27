@@ -44,7 +44,7 @@ Run these research passes. Use web search and web fetch to execute the queries l
 
 #### 2.1 What's Changing at This Company Right Now?
 
-The most important research area. Changes create urgency and open doors. This is Nasralla's "because of [change]" — the trigger for every deal.
+The most important research area. Changes create urgency and open doors. This is the "because of [change]" — the trigger for every deal.
 
 **Search queries to run:**
 - `"[Company Name]" news [current year]`

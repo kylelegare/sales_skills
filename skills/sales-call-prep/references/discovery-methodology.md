@@ -1,6 +1,6 @@
 # Discovery Methodology Reference
 
-Distilled from Orlob (pclub Discovery + Closing courses) and Charles (Question-Based Discovery). This is not a skill — it's the knowledge that the call prep skill loads to generate great questions.
+Distilled from established B2B discovery and question-based-discovery practice. This is not a skill — it's the knowledge that the call prep skill loads to generate great questions.
 
 ## The Discovery Depth Chain
 
@@ -17,7 +17,7 @@ Within each phase: always ask an **open** question first, then **targeted** ques
 
 ## Opening the Call
 
-### Upfront Contract (Orlob: ROE / Charles: ANOT)
+### Upfront Contract (Rules of Engagement)
 
 Set 3 things in the first 5 minutes:
 1. **Objective** — "The outcome I recommend we shoot for is..."
@@ -49,7 +49,7 @@ Use softening language: "Here's what I'm thinking. Let me know if you have a dif
 
 ## Phase 1: Surfacing Problems
 
-### The Problem Formula (Charles)
+### The Problem Formula
 1. Share context ("we speak with teams like yours daily...")
 2. Share insight ("they tell us they struggle with X, Y, Z...")
 3. Ask open-ended tough question ("curious to what extent any of these resonate...")
@@ -82,7 +82,7 @@ End questions with a negative option. Gives the prospect permission to be honest
 - "...or does that almost never happen?"
 - "...or do you think I'm off base?"
 
-### Recapping (Orlob: "Conversational Grease")
+### Recapping (Discovery-Depth: "Conversational Grease")
 After 3-4 questions, pause and summarize using their exact words:
 - "So if I understand you correctly, it sounds like [their words]. Am I understanding that correctly?"
 
@@ -138,7 +138,7 @@ Summarize both the business problem AND root causes before exploring impact:
 
 Only need 2-3 targeted negative impact questions. Don't overdo it.
 
-### Impact Sequence (Charles)
+### Impact Sequence
 1. "Do you have a specific example of when this last happened?"
 2. "How often would you say that happens?"
 3. "To what extent is this happening across other members of your team, or just you?"
@@ -162,7 +162,7 @@ Only need 2-3 targeted negative impact questions. Don't overdo it.
 
 Goal: buyer agrees that what you have is what they need BEFORE you show it.
 
-### Bring the Future to the Present (Charles)
+### Bring the Future to the Present
 - "If we end up showing you what you're looking for, what happens after that?"
 - "Pretending you like our walkthrough and believe we can help, what would happen next?"
 - "If your boss likes what she sees, what would happen after that?"
@@ -171,7 +171,7 @@ Goal: buyer agrees that what you have is what they need BEFORE you show it.
 
 ## Listening & Follow-Up Patterns
 
-### Four Listening Triggers (Charles)
+### Four Listening Triggers
 1. **Prospect explicitly admits a problem** → "Can you tell me more about that?"
 2. **Prospect hints at a problem** → "How do you mean?"
 3. **Prospect asks YOU a question** → "Sounds like you're asking that for a reason."

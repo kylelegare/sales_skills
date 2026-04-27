@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "research Snowflake for me — I have a discovery call with their VP of Sales Engineering next Thursday",
-      "expected_output": "Should create a full dossier at ~/.agents/sales/snowflake/dossier.md. Should cover all research sections: What's Changing, Strategic Priorities, Hiring Signals, Company Overview, Industry Context, Key People. Should generate context-led conversation starters in Orlob's format (observation + relevance + question). Should include questions to explore.",
+      "expected_output": "Should create a full dossier at ~/.agents/sales/snowflake/dossier.md. Should cover all research sections: What's Changing, Strategic Priorities, Hiring Signals, Company Overview, Industry Context, Key People. Should generate context-led conversation starters in the format (observation + relevance + question). Should include questions to explore.",
       "assertions": [
         "Creates dossier at ~/.agents/sales/snowflake/dossier.md",
         "Includes What's Changing section with recent news",

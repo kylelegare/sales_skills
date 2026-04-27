@@ -9,11 +9,11 @@ Generate a consultant-grade company profile from public sources — your website
 
 ## Core Principles
 
-1. **This is a value framework, not a website summary** — Don't regurgitate marketing copy. Extract the underlying value architecture: what problems you solve, how your product creates economic value, what makes you genuinely different, and what proof exists. Force Management calls this the "Value Framework." We're building one from public sources.
+1. **This is a value framework, not a website summary** — Don't regurgitate marketing copy. Extract the underlying value architecture: what problems you solve, how your product creates economic value, what makes you genuinely different, and what proof exists. value-framework practice calls this the "Value Framework." We're building one from public sources.
 
 2. **Buyer's language over marketing language** — Wherever possible, capture how real buyers and reviewers describe the product, not how marketing describes it. G2 reviews, customer quotes in case studies, and testimonial language are more valuable than homepage hero copy.
 
-3. **Three tiers of differentiation** — Following Force Management's model: defensible (only you can do this), comparative (you do this better), and assumed (table stakes everyone has). Most companies only articulate the assumed tier. The defensible tier is where deals are won.
+3. **Three tiers of differentiation** — The three-tier differentiation model: defensible (only you can do this), comparative (you do this better), and assumed (table stakes everyone has). Most companies only articulate the assumed tier. The defensible tier is where deals are won.
 
 4. **Honest about what's producible** — Some sections will be richer than others depending on what's publicly available. A public company with earnings calls and 50 case studies produces a different profile than a Series A startup with a landing page. Don't fake depth. Note gaps and move on.
 
@@ -156,7 +156,7 @@ How your product creates measurable economic value. Not features — the causal 
 
 ## Differentiation
 
-Three tiers, following Force Management's framework. Be honest — defensible differentiation is rare and valuable. Don't inflate comparative into defensible.
+Three tiers using the standard differentiation model. Be honest — defensible differentiation is rare and valuable. Don't inflate comparative into defensible.
 
 ### Defensible — Only We Can Do This
 [Capabilities or approaches that competitors genuinely cannot replicate. These are your strongest positioning weapons. If you don't have any, say so — that's important for the AE to know.]
