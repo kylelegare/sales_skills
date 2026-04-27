@@ -12,7 +12,7 @@ Built for AEs who actually sell -- not growth marketing, not SEO, not content. D
 | **sales-account-research** | Build an account dossier from public sources -- news, earnings, job postings, executive signals. External research layer. |
 | **sales-company-profile** | One-time setup. Generates a value framework for YOUR company -- problems you solve, differentiation, proof points, trigger events. |
 | **sales-deal-review** | Score deal health across 6 evidence dimensions using actual buyer quotes from extractions. Honest assessment, not happy ears. |
-| **sales-transcript-extractor** *(DEPRECATED 2026-04-26)* | Single-pass predecessor to `sales-extractor`. Kept in place during the v1 soak window for fallback only. Will be removed once `sales-extractor` is proven on real deals. **Do not use for new work.** |
+| **sales-call-prep** | Generate a call plan with specific, ready-to-ask discovery questions for an upcoming conversation. Pulls from extractions, dossier, and company profile. |
 
 ## Install
 
