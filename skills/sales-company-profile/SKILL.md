@@ -1,223 +1,117 @@
 ---
 name: sales-company-profile
-description: "Generates a consultant-grade value framework for the user's own company — problems solved, differentiation, proof points, trigger events. One-time setup that other sales skills reference. Triggers on 'set up my company profile', 'analyze my company', 'create a company profile', 'here's my company website', or when other sales skills lack product context. For researching prospect companies, see sales-account-research."
+description: "Generates a deep, framework-grounded company profile from public sources — Dunford positioning, Force Management value framework + 3-tier differentiation, Andy Raskin strategic narrative, multi-ICP support. One-time setup that other sales skills reference. Triggers on 'set up my company profile', 'analyze my company', 'create a company profile', 'here's my company website', 'deepen my company profile', 'refresh the profile', or when other sales skills lack product context. For researching prospect companies, see sales-account-research."
 ---
 
 # Sales Company Profile Generator
 
-Generate a consultant-grade company profile from public sources — your website, case studies, reviews, press releases, job postings. This profile becomes the foundational reference doc that every other sales skill pulls from. Without it, AI doesn't know what you sell. With it, every transcript extraction, account research, follow-up email, and business case is contextualized to YOUR product and market.
+Generate a framework-grounded company profile from public sources — your website, case studies, reviews, press releases, executive interviews, recent funding. This profile is the **bedrock substrate** every other sales skill pulls from for tailoring messaging, demos, business cases, and multi-thread outreach. Without it, AI doesn't know what you sell. With it, every transcript extraction, account research, follow-up email, and business case is contextualized to YOUR product, market, and ICP segments.
 
 ## Core Principles
 
-1. **This is a value framework, not a website summary** — Don't regurgitate marketing copy. Extract the underlying value architecture: what problems you solve, how your product creates economic value, what makes you genuinely different, and what proof exists. value-framework practice calls this the "Value Framework." We're building one from public sources.
+1. **Framework-grounded, not website-summarized** — Three named frameworks ground the synthesis: April Dunford for positioning (category, segments, alternatives, unique attributes), Force Management for value framework + 3-tier differentiation (defensible / comparative / assumed), and Andy Raskin for strategic narrative (world-changing / change-the-game / promised land / cost of staying still). Each framework's quality standards apply. Don't regurgitate marketing copy — extract the underlying value architecture.
 
-2. **Buyer's language over marketing language** — Wherever possible, capture how real buyers and reviewers describe the product, not how marketing describes it. G2 reviews, customer quotes in case studies, and testimonial language are more valuable than homepage hero copy.
+2. **Buyer's language over marketing language** — Capture how real buyers and reviewers describe the product, not how marketing describes it. G2 reviews, customer quotes in case studies, and testimonial language are more valuable than homepage hero copy.
 
-3. **Three tiers of differentiation** — The three-tier differentiation model: defensible (only you can do this), comparative (you do this better), and assumed (table stakes everyone has). Most companies only articulate the assumed tier. The defensible tier is where deals are won.
+3. **Multi-ICP supported, not assumed** — Many products serve materially different customer segments (e.g., community banks AND credit unions). The skill auto-detects ICPs from research signals and confirms with the user. Each ICP gets its own personas + value mappings; positioning, narrative, and core differentiation are product-level.
 
-4. **Honest about what's producible** — Some sections will be richer than others depending on what's publicly available. A public company with earnings calls and 50 case studies produces a different profile than a Series A startup with a landing page. Don't fake depth. Note gaps and move on.
+4. **Honest about what's producible** — Some sections will be richer than others depending on what's publicly available. A public company with earnings calls and 50 case studies produces a different profile than a Series A startup with a landing page. Don't fake depth. Flag gaps explicitly in the Honest Gaps section so downstream consumers know what's research-derived vs. needs direct input.
+
+5. **Research-only in v1** — No required AE interview. Stage 2 (v1.5, future) is "react-and-refine" over a draft. Stage 3 (v2, future) is auto-refinement from accumulated extractions. Today: paste a URL, get a compelling first draft.
 
 ## Workflow
 
-### Phase 1: Get the Input
+The skill orchestrates a 5-phase pipeline. Phase content for each is loaded from `references/` on demand; the orchestration logic itself lives in this SKILL.md.
 
-1. **Get the company URL** — from the user's request, or ask:
-   > "What's your company website? I'll analyze it to build your profile."
+### Phase 1: Receive & Identify
 
-2. **Check for existing profile** — Look for `~/.agents/sales/company-profile.md`
-   - If it exists and the user wants to update — skip to **Update Mode** below.
-   - If it doesn't exist — continue with full analysis.
+Get the company URL (from the user's request or by asking). Derive the product-slug (lowercase, hyphenated; defaults to slugified company-name when there's only one product, or asks the user when multiple products are clearly in play).
 
-3. **Ask for any additional context** the user wants to provide:
-   > "Anything specific you want me to know that might not be on the website? (Optional — I can work with just the URL.)"
+Check existing profiles and branch:
 
-   The user might paste a pitch deck, a competitive battlecard, internal positioning docs, or just give verbal context. All of this enriches the profile.
+| Scenario | Handling |
+|---|---|
+| No existing profile | Fresh run. |
+| Existing profile at old flat path (`~/.agents/sales/company-profile.md`) | Prompt: "Found a profile from the prior version. Regenerate with deeper framework grounding into the new product-aware path?" If yes, fresh-run + archive old. If no, exit. |
+| Existing profile at new path (`~/.agents/sales/<product-slug>/company-profile.md`) | Update Mode candidate. Prompt: "Found existing profile for [product]. Update or regenerate fresh?" |
+| Profiles at BOTH old and new paths | Warn user. Default to new. Archive old. |
+| Malformed existing profile (frontmatter unparseable, sections corrupted) | Graceful parse attempt; fallback to fresh-run with warning. Archive corrupted file with `.malformed-<date>` suffix. |
+| Multiple products inferred but single profile at old path | Clarify with user before migrating; product-slug = whichever product user identifies. |
+
+[Detailed identification + migration logic filled in Unit 5.]
 
 ### Phase 2: Research
 
-Scrape and analyze public sources systematically. Run these searches and reads in parallel where possible.
+Load `references/research-sources.md` for the per-section source list and search query strategy. Run parallel web fetches across:
 
-#### 2.1 The Website Deep Read
+- Website pages (homepage, product, pricing, case studies, comparison, blog, careers, customers)
+- Buyer voice (G2, Gartner Peer Insights, TrustRadius, Reddit, LinkedIn customer testimonials)
+- Market & competitive context (competitor searches, funding, exec interviews/podcasts)
+- Positioning context (analyst categorization, "vs"-pages, category-defining content)
+- Strategic narrative (CEO/founder interviews, recent investor letters, conference talks, blog thought-leadership)
+- Displacement signal (case-study before/after framing, "switched from X" review patterns)
+- Trigger events (customer-win press, news re: customer companies, recent hires/leadership changes)
 
-This is the primary source. Read thoroughly, not just the homepage.
+Aggregate research corpus in-memory.
 
-**Pages to read:**
-- Homepage (positioning, hero message, value prop)
-- Product/platform pages (what it does, how it works)
-- Pricing page (if public — business model, packaging, tiers)
-- Case studies / customer stories (every one available — these are the richest source)
-- About page (company story, mission, team)
-- Customers / logos page (who uses it)
-- Comparison pages or "vs. competitor" pages (how they position against alternatives)
-- Blog (recent posts — what topics they write about)
-- Careers page (what they're hiring for)
+**Multi-ICP detection** (after research, before synthesis): scan corpus for distinct customer segments using these signals:
+- Case studies clearly segmented by industry / size / role
+- Comparison or "for X / for Y" content on the website
+- Distinct customer-logo clusters (visually grouped)
+- Pricing tiers tied to customer profile
+- Distinct G2 / Gartner segment mentions in reviews
+- Explicit ICP statement on website
 
-**What to extract from each:**
-- From homepage: the core promise in one sentence, who it's for, primary CTA
-- From product pages: capabilities described, technical approach, integrations
-- From case studies: who bought (industry, size, persona), what problem, what result (with numbers), what timeline
-- From pricing: model (per seat, usage, platform fee), tiers and what differentiates them
-- From comparisons: who they compare against, what dimensions they compete on, what they claim as advantages
-- From blog: what thought leadership topics they push, what narrative they're building
-- From careers: what functions are growing, what tech stack, what stage of growth
+**Threshold:** ≥2 signals at the same ICP boundary AND segments would produce materially different value chains → propose multiple ICPs. If only 1 signal, default to single-ICP.
 
-#### 2.2 The Buyer's Voice
+**User confirm step** — present candidate ICPs as a hypothesis with evidence. Avoid binary yes/no framing. If user is uncertain, ask them to identify ICPs themselves: *"List the customer types you actually sell to in your real practice."*
 
-Search for how real buyers and users describe the product — not marketing, real people.
+[Detailed research + ICP detection logic filled in Unit 5.]
 
-**Search queries to run:**
-- `"[Company Name]" site:g2.com` (G2 reviews)
-- `"[Company Name]" site:gartner.com peer insights` (Gartner reviews)
-- `"[Company Name]" site:trustradius.com` (TrustRadius reviews)
-- `"[Company Name]" review OR "switched from" OR "we use"` (organic mentions)
+### Phase 3: Synthesis (3 sequential framework passes)
 
-**What to extract:**
-- How buyers describe what the product does (often different from marketing)
-- What they praise most (the real value drivers)
-- What they complain about (the real objections you'll face)
-- What they compare it to (the real competitive set)
-- The language they use — specific phrases, not star ratings
+For each lens in **[positioning, value-framework, strategic-narrative]** (in order):
 
-#### 2.3 Market and Competitive Context
+- Read `references/<lens>-lens.md` for that pass's quality standards, prompt-shaping guidance, and example output structure.
+- Construct a focused synthesis prompt: research corpus + lens guidance + accumulated artifact state + (for value-framework) confirmed ICP set.
+- Receive structured output for that lens.
+- Append to in-flight artifact-state.
 
-**Search queries to run:**
-- `"[Company Name]" competitor OR alternative OR "compared to"`
-- `"[Company Name]" vs [likely competitor names]`
-- `"[Company Name]" funding OR acquisition OR revenue` (company stage/trajectory)
-- `"[Company Name]" CEO OR founder interview OR podcast` (executive perspective)
+**Pass-failure handling:** if a pass returns empty or errors, log to `passes_failed` in the artifact's frontmatter and continue with remaining passes. Partial-output-with-honest-frontmatter is more valuable than a hard abort.
 
-**What to extract:**
-- Named competitors and how the company positions against them
-- Company trajectory — growth stage, recent funding, market position
-- Executive vision — what the CEO/founder says about where the market is going
+[Detailed synthesis loop logic filled in Unit 5.]
 
-### Phase 3: Analyze and Write the Profile
+### Phase 4: Composition + Gap Detection
 
-Synthesize everything into a structured profile. This is where the skill earns its value — don't just summarize what you read. Analyze it through the lens of "what does an AE need to sell this effectively?"
+Compose the artifact per `references/artifact-schema.md` (9-section structure):
 
-Save to `~/.agents/sales/company-profile.md`:
+1. Positioning (Dunford)
+2. Soundbite (assembled from positioning + value-framework + strategic-narrative outputs)
+3. Strategic Narrative (Raskin — 4 structured sub-fields: world-changing / change-the-game / promised land / cost of staying still)
+4. Buyer's Problem Stack (Force Management — with "before" sub-field that captures the displacement signal)
+5. ICPs container (per-ICP: firmographic profile + personas × Force-Management value mappings)
+6. Differentiation 3-tier (Force Management)
+7. Proof Points (mapped to problems)
+8. Trigger Events (paired to problems)
+9. Honest Gaps + Suggested Probes (structured gap-probe items)
 
-```markdown
----
-company: [Company Name]
-website: [URL]
-generated: [YYYY-MM-DD]
-sources:
-  - [list of sources analyzed]
----
+**Gap detection:** for each section, evaluate whether research and synthesis produced sufficient content. If not, emit a structured gap-probe item to the Honest Gaps section: `gap / framework_area / research_says / probe / severity`. The Strategic Narrative section in particular outputs `[insufficient public data]` stubs paired with high-severity probes when public sources are thin (early-stage / private / quiet companies).
 
-# [Company Name] — Sales Profile
+[Detailed composition + gap detection logic filled in Unit 5.]
 
-## Company Soundbite
+### Phase 5: Write & Report
 
-The 4-sentence anchor for every conversation. Every other section builds on this.
+Write the artifact to `~/.agents/sales/<product-slug>/company-profile.md`.
 
-**Because of** [a significant change in the market/buyer's world that creates urgency],
-**now's the time to** [the approach your product uniquely enables] by [timeframe/trigger],
-**so that** [the positive business outcomes buyers achieve],
-**instead of** [the negative outcomes of doing nothing / using the old approach].
+If migrating from old flat path: archive old to `~/.agents/sales/.archive/company-profile-pre-evolution-<date>.md`.
 
-[Write the soundbite in plain language. No jargon. A champion should be able to repeat this in an internal meeting and have it land.]
+Report to user:
+- Path written
+- TL;DR (positioning category, ICPs detected, top 3 problems, defensible differentiation)
+- Gap count by severity (high / medium / low)
+- Suggested next step (downstream tactical use today; v1.5 react-and-refine when available)
 
-[Also include a 1-sentence version — the absolute shortest way to describe what this company does and why it matters.]
-
-## Buyer's Problem Stack
-
-The 3-5 problems your product solves, ranked by urgency and frequency. Each problem is described in buyer language (from reviews and case studies), not marketing language.
-
-### Problem 1: [Name in buyer's words]
-**Before:** [What the buyer's world looks like without your product — the painful current state]
-**Consequence:** [What it costs them — in dollars, time, risk, or opportunity. Quantify from case studies where possible.]
-**Who feels it:** [Which persona/role owns this problem]
-
-### Problem 2: [Name]
-[Same structure]
-
-### Problem 3: [Name]
-[Same structure]
-
-[Include 3-5 problems. Rank by how often they appear in case studies and reviews as the primary buying reason.]
-
-## The Value Chain
-
-How your product creates measurable economic value. Not features — the causal chain from capability to dollar impact.
-
-### For [Persona 1, e.g., VP Sales]:
-**Capability:** [What the product does]
-**Operational improvement:** [What changes in their day-to-day]
-**Metric that moves:** [Which KPI improves]
-**Dollar impact:** [Quantified from case studies — e.g., "customers report 30-40% reduction in X"]
-**How to say it:** [One sentence an AE could say in a conversation that connects the dots]
-
-### For [Persona 2, e.g., CFO]:
-[Same structure — different value chain for different buyers]
-
-[Include 2-4 personas. Only include personas where you have evidence from case studies or reviews.]
-
-## Differentiation
-
-Three tiers using the standard differentiation model. Be honest — defensible differentiation is rare and valuable. Don't inflate comparative into defensible.
-
-### Defensible — Only We Can Do This
-[Capabilities or approaches that competitors genuinely cannot replicate. These are your strongest positioning weapons. If you don't have any, say so — that's important for the AE to know.]
-
-### Comparative — We Do This Better
-[Capabilities where you have a meaningful advantage but competitors have some version. Include WHY you're better, not just that you claim to be.]
-
-### Assumed — Table Stakes
-[Capabilities everyone in the category has. These are not differentiators. Don't lead with them. But the AE needs to know they exist because buyers will ask.]
-
-### How Buyers Describe the Difference
-[From reviews and case studies — what do actual customers say makes this product different? This is often more compelling than your own differentiation claims.]
-
-## Proof Points
-
-Specific customer results with enough context to be deployable in a conversation. Organized by problem solved so the AE can match proof to prospect.
-
-### [Customer Name / Industry] — [Problem Solved]
-- **Company:** [Size, industry, relevant context]
-- **Problem:** [What they were dealing with]
-- **Result:** [Specific outcome with numbers and timeframe]
-- **Quote:** [Direct customer quote if available]
-- **Best used when:** [What type of prospect/situation this proof point is most relevant for]
-
-[Include all proof points available from case studies. More is better here — this is a lookup table.]
-
-## Trigger Events
-
-What changes in a company's world make them a buyer? Paired to which problem from the stack each trigger activates.
-
-- **[Trigger]** — [What happens] → Activates **Problem [#]** → Typical urgency: [timeframe]
-- **[Trigger]** — [What happens] → Activates **Problem [#]** → Typical urgency: [timeframe]
-
-[Include 5-8 triggers. Draw from case studies (what preceded the purchase), from the market change referenced in the soundbite, and from patterns visible in who buys.]
-```
-
-**Important:** Omit sub-sections that don't have real data behind them. A proof points section with 2 strong entries is better than one with 5 where 3 are fabricated. Note gaps explicitly — "No public case studies found for enterprise segment" is useful information for the AE.
-
-### Phase 4: Confirm Completion
-
-After writing the profile:
-
-> **Company profile created for [Company Name].**
->
-> Saved to: `~/.agents/sales/company-profile.md`
->
-> **Soundbite:**
-> [The 4-sentence soundbite]
->
-> **Top 3 problems you solve:**
-> 1. [Problem 1]
-> 2. [Problem 2]
-> 3. [Problem 3]
->
-> **Defensible differentiation:**
-> - [What only you can do]
->
-> **Gaps in the profile:**
-> - [Anything that couldn't be determined from public sources — e.g., "No pricing info public", "Limited case studies for enterprise segment"]
->
-> You can enrich this profile anytime by pasting internal docs (pitch decks, battlecards, win/loss reports) and asking me to update it.
+[Detailed write + report logic filled in Unit 5.]
 
 ---
 
@@ -225,14 +119,14 @@ After writing the profile:
 
 When the user says "update my company profile" or "refresh the profile":
 
-1. **Read the existing profile** at `~/.agents/sales/company-profile.md`
+1. **Locate the existing profile** at `~/.agents/sales/<product-slug>/company-profile.md` (fall back to old flat path if not present; offer migration if found at old path).
 
-2. **Determine what to update:**
-   - If the user provided new material (case study, battlecard, pitch deck) — incorporate it into the relevant sections
-   - If the user wants a full refresh — re-run the research and update all sections
-   - If the user mentions a specific change ("we just launched a new product" or "we got a new case study") — update only the relevant sections
+2. **Determine the update mode:**
+   - **Full refresh** (default for v1) — re-run from Phase 2 Research. All sections regenerated.
+   - **Material-paste enrichment** — user provides new material (case study, battlecard, pitch deck, win-loss report). Incorporate into relevant sections; preserve other sections; note in `enriched_with` frontmatter.
+   - **Targeted refresh** (deferred to v1.5) — partial section updates. v1 falls back to full refresh and notes the limitation.
 
-3. **Update the profile in place** — Add new information, revise changed sections, keep what's still valid. Update the `generated` date.
+3. **Update the profile in place** — write to the same path; update the `generated` date; preserve `migrated_from` if present.
 
 4. **Show what changed:**
    > **Profile updated for [Company Name].**
@@ -244,7 +138,23 @@ When the user says "update my company profile" or "refresh the profile":
 
 ## What This Skill Does NOT Do
 
-- **No account research** — This profiles YOUR company, not your prospects. Use the sales-account-research skill for prospect companies.
-- **No competitive deep-dive** — Differentiation is included, but a full competitive analysis with battlecards is a different task.
-- **No internal data access** — This works from public sources. The user can paste internal docs to enrich the profile, but the skill doesn't access CRMs, internal wikis, or private data.
-- **No messaging generation** — This produces the reference doc. Other skills use it to generate emails, business cases, talk tracks, etc.
+- **No account research** — This profiles YOUR company, not your prospects. Use the `sales-account-research` skill for prospect companies.
+- **No competitive deep-dive** — Differentiation is included via Force Management's 3-tier model, but a full competitive battlecard is a different task.
+- **No internal data access** — Works from public sources. The user can paste internal docs (battlecards, decks, win-loss reports) to enrich the profile, but the skill doesn't access CRMs, internal wikis, or private data.
+- **No messaging generation** — This produces the reference doc. Other skills (multi-thread email, follow-up email, business case, demo prep) use it to generate emails, business cases, talk tracks, etc.
+- **No required AE interview in v1** — research-only by design. Honest Gaps section flags what couldn't be determined from public sources; v1.5 react-and-refine (future) is where the AE fills those gaps.
+- **No multi-product within a single doc** — multi-product is supported via separate runs (one doc per product). Single doc supports multi-ICP within one product.
+
+---
+
+## Reference Files
+
+This skill loads content from `references/` on demand. Reference files are authored separately so SKILL.md stays focused on orchestration.
+
+| Reference | Purpose |
+|---|---|
+| `references/research-sources.md` | Per-section research source list and search query strategy. |
+| `references/positioning-lens.md` | Dunford positioning lens — category, segments, alternatives, unique attributes. |
+| `references/value-framework-lens.md` | Force Management value framework + 3-tier differentiation + buyer's problem stack with displacement signal in "before" field. |
+| `references/strategic-narrative-lens.md` | Andy Raskin strategic narrative — 4 structured sub-fields. |
+| `references/artifact-schema.md` | 9-section output schema, ICPs container shape, gap-probe schema, frontmatter spec, worked example. |
