@@ -26,7 +26,7 @@ Generate a call plan with specific, ready-to-ask discovery questions for an upco
 2. **Load everything available** for this account:
    - `~/.agents/sales/<account-slug>/extractions/` — all extraction files (what you've learned from conversations)
    - `~/.agents/sales/<account-slug>/dossier.md` — external research
-   - `~/.agents/sales/company-profile.md` — what you sell
+   - `~/.agents/sales/<product-slug>/company-profile.md` — what you sell (product-aware path produced by the evolved sales-company-profile skill). If the user has multiple products, ask which applies. **Fallback:** `~/.agents/sales/company-profile.md` (legacy flat path from the pre-evolution version) — read if the product-aware path doesn't exist.
 
 3. **Assess the deal stage** by scanning what exists:
    - **No extractions, no dossier** — This is a first call with no prep. Generate an opening plan with context-led questions if dossier exists, or a discovery prompter approach if going in cold.

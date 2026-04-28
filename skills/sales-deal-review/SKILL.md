@@ -142,7 +142,7 @@ These are not a sales framework. They're the universal evidence categories that 
 
 3. **Read the dossier** (if it exists) — Load `~/.agents/sales/<account-slug>/dossier.md` for external context. The dossier provides background but is NOT evidence of buyer intent — only buyer statements from extractions count as evidence.
 
-4. **Read the company profile** (if it exists) — Load `~/.agents/sales/company-profile.md` for context on what you sell. This helps assess whether buyer-stated problems align with your value chain, but the company profile does NOT substitute for buyer evidence.
+4. **Read the company profile** (if it exists) — Look for the product-aware path first: `~/.agents/sales/<product-slug>/company-profile.md` (produced by the evolved sales-company-profile skill; if the user has multiple products, ask which applies). **Fallback:** `~/.agents/sales/company-profile.md` (legacy flat path from the pre-evolution version of the skill). The company profile gives context on what you sell — helps assess whether buyer-stated problems align with your value chain, but does NOT substitute for buyer evidence.
 
 ### Phase 2: Score Each Dimension
 
