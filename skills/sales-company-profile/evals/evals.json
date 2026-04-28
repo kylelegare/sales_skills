@@ -4,56 +4,66 @@
     {
       "id": 1,
       "prompt": "set up my company profile — our website is https://www.gong.io",
-      "expected_output": "Should research Gong from public sources (website, G2, case studies, careers, blog) and produce a full company profile at ~/.agents/sales/company-profile.md. Should include all 6 sections: Company Soundbite (4-sentence format), Buyer's Problem Stack, Value Chain, Differentiation (3-tier), Proof Points, Trigger Events. Should use buyer language from reviews, not just marketing copy.",
+      "expected_output": "Should research Gong from public sources (website, G2, Gartner Peer Insights, case studies, comparison pages, CEO/founder interviews, careers, blog) and produce a framework-grounded company profile at ~/.agents/sales/<product-slug>/company-profile.md (e.g., ~/.agents/sales/gong/company-profile.md). Should include all 9 sections per artifact-schema: TL;DR, Positioning (Dunford), Soundbite, Strategic Narrative (Raskin's 4 sub-fields), Buyer's Problem Stack (with 'before' field for displacement signal), ICPs container (multi-ICP if research supports), Differentiation 3-tier, Proof Points, Trigger Events, Honest Gaps. Should auto-detect ICPs from research signals and confirm with user. Should use buyer language from G2 reviews, not just marketing copy. Should run 3 sequential synthesis passes (positioning, value-framework, strategic-narrative).",
       "assertions": [
-        "Creates profile at ~/.agents/sales/company-profile.md",
-        "Includes Company Soundbite in the 4-sentence format (because of / now's the time / so that / instead of)",
-        "Includes Buyer's Problem Stack with 3-5 problems in buyer language",
-        "Includes Value Chain with capability → metric → dollar impact per persona",
-        "Includes 3-tier Differentiation (defensible / comparative / assumed)",
-        "Includes Proof Points from case studies with specific results",
+        "Creates profile at ~/.agents/sales/<product-slug>/company-profile.md (product-aware path, not legacy flat path)",
+        "Frontmatter includes passes_run, passes_failed, sources_consulted, sources_failed, icps_detected, gap_count_by_severity",
+        "Includes Positioning section with named category, named competitive alternatives, and unique attributes",
+        "Includes Soundbite in the 4-sentence format (because of / now's the time / so that / instead of)",
+        "Includes Strategic Narrative as 4 structured sub-fields (world-changing / change-the-game / promised land / cost of staying still), NOT flowing prose",
+        "Includes Buyer's Problem Stack with 3-5 problems in buyer language; each problem has a 'before' field capturing displacement signal",
+        "Includes ICPs container with at least one ICP; multi-ICP if research signals support it",
+        "Per-ICP value mappings preserve the Force Management chain (capability / operational / metric / dollar / how-to-say-it)",
+        "Includes 3-tier Differentiation (defensible / comparative / assumed) with honest tiering (defensible should be the smallest tier)",
+        "Includes Proof Points from case studies with specific results, mapped to which problem each addresses",
         "Includes Trigger Events paired to problems",
-        "Uses buyer/reviewer language from G2 or similar, not just marketing copy",
-        "Notes gaps where public data is insufficient"
+        "Includes Honest Gaps section with structured gap-probe items (gap / framework_area / research_says / probe / severity)",
+        "Uses buyer/reviewer language from G2 / Gartner / TrustRadius, not just marketing copy",
+        "Multi-ICP detection presented as hypothesis-with-evidence to user for confirmation, not binary yes/no"
       ],
       "files": []
     },
     {
       "id": 2,
       "prompt": "analyze my company — we're at https://www.lattice.com. We sell HR performance management software. Our main differentiator is that we combine performance reviews, engagement surveys, and compensation management in one platform. Most competitors only do one of those things.",
-      "expected_output": "Should incorporate both the website research AND the user's verbal context about differentiation. The defensible differentiator (combined platform) should come from the user's input, validated against public sources. Should not just parrot the user's words back — should research and enrich with buyer voice from reviews.",
+      "expected_output": "Should incorporate both the website research AND the user's verbal context about differentiation. The defensible differentiator (combined platform) should come from the user's input, validated against public sources via the value-framework lens. Should not just parrot the user's words back — should research and enrich with buyer voice from G2/Gartner reviews. Strategic narrative pass should ground in CEO/founder language about HR software market direction. Positioning pass should name competitive alternatives specifically (BambooHR, Culture Amp, Workday, etc.).",
       "assertions": [
-        "Incorporates user's verbal context about differentiation",
-        "Places combined platform positioning in defensible or comparative tier with justification",
-        "Enriches user input with independent research from reviews and case studies",
+        "Incorporates user's verbal context about combined-platform differentiation",
+        "Places combined-platform positioning in defensible or comparative tier with research-grounded justification",
+        "Positioning section names competitive alternatives specifically (not 'incumbents' or 'point solutions')",
+        "Enriches user input with independent research from G2 / Gartner / TrustRadius reviews and case studies",
         "Does not simply parrot back what the user said",
-        "Buyer's Problem Stack reflects real buyer pain from reviews, not just marketing"
+        "Buyer's Problem Stack reflects real buyer pain from reviews, not just marketing copy",
+        "Strategic Narrative grounds in HR-software market direction from CEO/founder sources, not generic AI/HR-tech trend content"
       ],
       "files": []
     },
     {
       "id": 3,
       "prompt": "update my company profile — we just published a new case study with Delta Airlines where they reduced onboarding time by 40%",
-      "expected_output": "Should enter update mode. Should read the existing company profile, add the new Delta Airlines proof point to the Proof Points section, and potentially update Value Chain if the onboarding metric is new. Should not redo the entire profile — targeted update only.",
+      "expected_output": "Should enter Update Mode. Should locate the existing profile (try product-aware path first, fall back to legacy flat path). For v1, default to full refresh (re-run from Phase 2 Research). Add Delta Airlines as a new proof point in Section 7. Update the generated date. Show what changed.",
       "assertions": [
-        "Reads existing profile before updating",
-        "Adds Delta Airlines as a new proof point with specific result (40% reduction)",
-        "Updates only relevant sections, not the entire profile",
-        "Updates the generated date",
-        "Shows what changed in the confirmation"
+        "Locates existing profile (product-aware path or legacy fallback)",
+        "Adds Delta Airlines as a new proof point with specific result (40% reduction in onboarding)",
+        "Maps the Delta proof point to which problem from the Problem Stack it addresses",
+        "Updates the generated date in frontmatter",
+        "Shows what changed in the confirmation report",
+        "If using legacy path, prompts user about migration to product-aware path"
       ],
       "files": []
     },
     {
       "id": 4,
       "prompt": "create a company profile for a startup — our website is pretty bare bones, just a landing page at https://www.example-startup.com. We're pre-revenue, no case studies yet.",
-      "expected_output": "Should handle limited public data gracefully. Should produce a profile that's honest about gaps — no fabricated proof points or case studies. Should still produce useful sections (soundbite, problem stack, differentiation) based on what's available. Should note which sections are thin and suggest how to enrich them later.",
+      "expected_output": "Should handle limited public data gracefully. Should produce a profile that's honest about gaps — NO fabricated proof points, case studies, or strategic narrative content. Strategic Narrative section should output 4 sub-field stubs marked [insufficient public data] when public sources don't support real narrative. Honest Gaps section should have multiple high-severity gap-probes naming specifically what's missing and how the user could fill it in v1.5.",
       "assertions": [
         "Handles limited public data without fabricating content",
-        "Explicitly notes gaps (e.g., 'No public case studies found')",
-        "Still produces a useful soundbite and problem stack",
-        "Differentiation section is honest about what's provable vs. claimed",
-        "Suggests ways to enrich the profile as the company grows"
+        "Strategic Narrative outputs [insufficient public data] stubs when public sources are thin (does NOT fabricate generic-trend-piece content)",
+        "Honest Gaps section has multiple high-severity gap-probe items",
+        "Each gap-probe is structured (gap / framework_area / research_says / probe / severity)",
+        "Still produces a useful Positioning section + Soundbite based on what IS available",
+        "Differentiation 3-tier is honest about what's provable vs. claimed (most assumed, sparse defensible)",
+        "Final report TL;DR explicitly notes the high gap count and suggests next steps"
       ],
       "files": []
     },
@@ -76,6 +86,20 @@
         "Does NOT perform deal scoring",
         "Redirects to sales-deal-review skill by name",
         "Clarifies this skill is for profiling your own company"
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "set up my company profile — our website is https://www.glia.com",
+      "expected_output": "Should detect multi-ICP (community banks AND credit unions) from research signals — case-study segmentation, distinct customer-logo clusters, possibly distinct review segments. Should present this as a hypothesis to the user with the supporting signals named. Should produce a profile with two ICP blocks in Section 5, each with distinct firmographic profiles, detection signals, and personas. Positioning, soundbite, strategic narrative, and core differentiation are product-level (shared across ICPs).",
+      "assertions": [
+        "Detects multi-ICP from at least 2 research signals at the same boundary (community banks vs credit unions)",
+        "Presents detection as hypothesis-with-evidence to user, not binary yes/no",
+        "ICPs container has two distinct ICP blocks (community-banks and credit-unions)",
+        "Each ICP has its own firmographic profile, detection signals, and personas",
+        "Positioning / Soundbite / Strategic Narrative / Differentiation are product-level (one each, shared across ICPs)",
+        "icps_detected and icp_detection_signals populated in frontmatter for downstream skill queryability"
       ],
       "files": []
     }
