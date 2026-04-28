@@ -38,7 +38,26 @@ Check existing profiles and branch:
 | Malformed existing profile (frontmatter unparseable, sections corrupted) | Graceful parse attempt; fallback to fresh-run with warning. Archive corrupted file with `.malformed-<date>` suffix. |
 | Multiple products inferred but single profile at old path | Clarify with user before migrating; product-slug = whichever product user identifies. |
 
-[Detailed identification + migration logic filled in Unit 5.]
+**Step-by-step:**
+
+1. **Get the company URL.** From the user's request, or ask: *"What's your company website? I'll analyze it to build your profile."* Get a confirmed URL before proceeding.
+
+2. **Get the company and product names.** Parse company-name from the URL or homepage. If the user has multiple products, ask: *"What product is this profile for?"* — name + product-slug both. For single-product companies, default product-slug = slugified company-name.
+
+3. **Detect existing profile state.** Check for files at:
+   - Old flat path: `~/.agents/sales/company-profile.md`
+   - New product-aware path: `~/.agents/sales/<product-slug>/company-profile.md`
+
+4. **Branch on the migration matrix above.** For the migration scenarios:
+   - **Old-only**: prompt user verbatim. If yes, plan to archive old + run fresh into new path. Archive happens in Phase 5 (after the new artifact succeeds — never delete old before new exists).
+   - **New-only**: prompt user — Update or regenerate fresh? If Update, branch into Update Mode (skip to bottom of file). If fresh, continue.
+   - **Both paths**: warn the user that both exist; default to using the new path; flag the old for archive after the run.
+   - **Malformed existing**: try to parse frontmatter and section headings. If parse fails, warn user, archive corrupted to `<path>.malformed-<YYYY-MM-DD>.md`, treat as fresh-run.
+   - **Multi-product inferred but single old profile**: ask user to clarify which product the old profile represents. Migrate accordingly.
+
+5. **Get optional context.** *"Anything specific you want me to know that might not be on the website? (Optional — I can work with just the URL. Useful: pitch decks, battlecards, win-loss reports.)"* Pasted material gets incorporated during synthesis.
+
+6. **Set frontmatter scaffolding** in the in-flight artifact state: company, product, product_slug, website, generated (today's date). Other frontmatter fields populate as later phases complete.
 
 ### Phase 2: Research
 
@@ -66,7 +85,41 @@ Aggregate research corpus in-memory.
 
 **User confirm step** — present candidate ICPs as a hypothesis with evidence. Avoid binary yes/no framing. If user is uncertain, ask them to identify ICPs themselves: *"List the customer types you actually sell to in your real practice."*
 
-[Detailed research + ICP detection logic filled in Unit 5.]
+**Step-by-step:**
+
+1. **Read `references/research-sources.md`** to know which sources to consult and what to extract from each.
+
+2. **Run parallel web fetches.** Use the platform's web-fetch tool (WebFetch) and web-search tool (WebSearch) in parallel for the source categories enumerated in research-sources.md:
+   - Website pages: 8-10 distinct page-fetches (homepage, product, pricing, case studies, comparison, blog, careers, customers, about)
+   - Buyer voice: 3-5 search queries (G2, Gartner, TrustRadius, Reddit if industry-relevant, LinkedIn customer testimonials)
+   - Market context: 4-5 search queries (competitors, funding, exec interviews, analyst categorization)
+   - Strategic narrative sources: 2-4 search queries (CEO interviews, podcasts, recent investor letters, conference keynotes)
+   - Trigger events: 1-2 search queries (recent customer-win press releases)
+
+3. **Aggregate results.** Build an in-memory research corpus organized by source. Track which sources returned content vs. which failed (`sources_failed` for the frontmatter). For long sources (full earnings call, hour-long podcast transcript), summarize by themes — don't load verbatim.
+
+4. **Multi-ICP detection.** Scan the aggregated corpus for the 6 ICP signals:
+   - Case studies clearly segmented by industry/size/role
+   - Comparison or "for X / for Y" content
+   - Distinct customer-logo clusters on the customers page
+   - Pricing tiers tied to customer profile
+   - Distinct G2 / Gartner segment mentions
+   - Explicit ICP statement on website
+
+   For each candidate ICP boundary, count how many signals point at it. **Threshold: ≥2 signals at the same boundary AND segments would produce materially different value chains → propose multiple ICPs.** Otherwise default to single-ICP.
+
+5. **Confirm ICPs with user.** Present the detection result as a hypothesis with evidence. Format:
+
+   > Based on research, this product appears to serve **N distinct ICPs**:
+   >
+   > - **<ICP 1 name>** — supported by [signal 1, signal 2]
+   > - **<ICP 2 name>** — supported by [signal 1, signal 2]
+   >
+   > Confirm or correct? If you're not sure, list the customer types you actually sell to in your real practice.
+
+   Avoid binary "I detected N ICPs — yes/no?" framing. The hypothesis-with-evidence framing reduces sycophantic agreement.
+
+6. **Capture confirmed ICPs** in the in-flight artifact-state. Set `icps_detected` and `icp_detection_signals` in frontmatter. The confirmed ICP set becomes input to the value-framework synthesis pass.
 
 ### Phase 3: Synthesis (3 sequential framework passes)
 
@@ -79,7 +132,27 @@ For each lens in **[positioning, value-framework, strategic-narrative]** (in ord
 
 **Pass-failure handling:** if a pass returns empty or errors, log to `passes_failed` in the artifact's frontmatter and continue with remaining passes. Partial-output-with-honest-frontmatter is more valuable than a hard abort.
 
-[Detailed synthesis loop logic filled in Unit 5.]
+**Step-by-step:**
+
+For each lens in the ordered list `[positioning, value-framework, strategic-narrative]`:
+
+1. **Read the lens reference.** `references/positioning-lens.md` for the first pass, then `references/value-framework-lens.md`, then `references/strategic-narrative-lens.md`. Each reference contains the lens's quality standards, prompt-shaping guidance (told-to / told-not-to), and example output structure.
+
+2. **Construct a focused synthesis prompt.** Combine:
+   - The research corpus from Phase 2 (filtered to sources relevant to this lens — see per-section source mapping in `research-sources.md`)
+   - The lens reference's guidance (what to extract, quality standards, prompt-shaping)
+   - The accumulated artifact state from prior passes (positioning output is available to value-framework; both are available to strategic-narrative)
+   - **For value-framework specifically**: the confirmed ICP set from Phase 2 — produce per-ICP persona blocks
+   - **For strategic-narrative specifically**: the thin-source fallback rule (if sources don't support real narrative, output 4 sub-field stubs marked `[insufficient public data]` + high-severity gap-probe)
+
+3. **Capture structured output.** Each lens produces specific sections (per artifact-schema.md). Append the output to the in-flight artifact-state.
+
+4. **Pass-failure handling.** If a synthesis pass returns empty, errors, or hits a thin-source case it can't handle:
+   - Log the pass to `passes_failed` in frontmatter
+   - Continue with remaining passes (don't abort)
+   - The downstream Phase 4 gap-detection step will flag the missing content with appropriate gap-probes
+
+**Order matters:** positioning runs first because it frames everything. Value-framework second because it consumes positioning output. Strategic-narrative last because it can mutually-inform with the soundbite (composed in Phase 4 from all three lens outputs).
 
 ### Phase 4: Composition + Gap Detection
 
@@ -97,7 +170,44 @@ Compose the artifact per `references/artifact-schema.md` (9-section structure):
 
 **Gap detection:** for each section, evaluate whether research and synthesis produced sufficient content. If not, emit a structured gap-probe item to the Honest Gaps section: `gap / framework_area / research_says / probe / severity`. The Strategic Narrative section in particular outputs `[insufficient public data]` stubs paired with high-severity probes when public sources are thin (early-stage / private / quiet companies).
 
-[Detailed composition + gap detection logic filled in Unit 5.]
+**Step-by-step:**
+
+1. **Read `references/artifact-schema.md`** for the full 9-section structure, frontmatter schema, per-section field schemas, and gap-probe schema.
+
+2. **Compose the body sections** in order:
+   - **TL;DR** (top-of-doc): assemble a 3-5 sentence summary using positioning category, ICPs detected, top 3 problems, defensible differentiation, cost of staying still. Forwarding-test should pass — read like a thoughtful human summary, not AI report.
+   - **Section 1: Positioning** — directly from positioning-pass output
+   - **Section 2: Soundbite** — assemble the Nasralla 4-sentence using:
+     - "Because of" — from strategic-narrative's world-changing
+     - "Now's the time" — from positioning category + change-the-game
+     - "So that" — from value-framework's primary outcome
+     - "Instead of" — from strategic-narrative's cost-of-staying-still
+     - Plus a one-sentence version
+   - **Section 3: Strategic Narrative** — directly from strategic-narrative-pass output (4 structured sub-fields)
+   - **Section 4: Buyer's Problem Stack** — directly from value-framework-pass output (with "before" displacement-signal field populated)
+   - **Section 5: ICPs container** — for each confirmed ICP: firmographic profile + detection signals + N persona blocks (each with full Force-Management value chain)
+   - **Section 6: Differentiation 3-tier** — directly from value-framework-pass output
+   - **Section 7: Proof Points** — extract from research corpus (case studies); map each to which problem from Section 4 it addresses
+   - **Section 8: Trigger Events** — extract from research corpus (case-study contexts, recent customer wins, news); pair each to which problem from Section 4 it activates
+
+3. **Run gap detection.** For each section, evaluate whether the content meets the lens's quality standards (per the lens reference). For each section that falls short, emit a structured gap-probe item:
+
+   ```yaml
+   - gap: <short description>
+     framework_area: positioning | value-framework | strategic-narrative | proof | triggers | icps | other
+     research_says: <what research found, if anything>
+     probe: <specific question for the AE in v1.5>
+     severity: high | medium | low
+   ```
+
+   **Severity rules (per artifact-schema.md):**
+   - `high` — gap blocks downstream tactical-skill use
+   - `medium` — gap reduces output quality but doesn't block
+   - `low` — polish-level gap
+
+4. **Compose Section 9: Honest Gaps + Suggested Probes.** Concatenate all gap-probe items into the structured YAML block. Compute `gap_count_by_severity` for the frontmatter.
+
+5. **Finalize frontmatter.** Set `passes_run`, `passes_failed`, `sources_consulted`, `sources_failed`, `icps_detected`, `icp_detection_signals`, `gap_count_by_severity`. Optionally compute `no_logo_rating` (1-5 self-assessment of how specific-to-this-company the doc is).
 
 ### Phase 5: Write & Report
 
@@ -111,7 +221,42 @@ Report to user:
 - Gap count by severity (high / medium / low)
 - Suggested next step (downstream tactical use today; v1.5 react-and-refine when available)
 
-[Detailed write + report logic filled in Unit 5.]
+**Step-by-step:**
+
+1. **Create destination directory if needed.** `~/.agents/sales/<product-slug>/` — `mkdir -p` semantics. Don't fail if it already exists.
+
+2. **Write the artifact** to `~/.agents/sales/<product-slug>/company-profile.md`. Frontmatter on top, body sections in order.
+
+3. **Handle migration archival** (only if migrating from old flat path):
+   - Create `~/.agents/sales/.archive/` if needed.
+   - Copy old profile to `~/.agents/sales/.archive/company-profile-pre-evolution-<YYYY-MM-DD>.md`.
+   - Delete old file at `~/.agents/sales/company-profile.md` ONLY after archive succeeds AND the new artifact write succeeds.
+
+4. **Report to user.** Format:
+
+   > **Company profile created for [Company Name].**
+   >
+   > **Saved to:** `~/.agents/sales/<product-slug>/company-profile.md`
+   > [if migrated:] *Migrated from old path; archived to `~/.agents/sales/.archive/company-profile-pre-evolution-<date>.md`.*
+   >
+   > **TL;DR:** [reproduce the doc's TL;DR]
+   >
+   > **ICPs detected:** [list, with detection-signal counts]
+   >
+   > **Top 3 problems you solve:**
+   > 1. [problem 1]
+   > 2. [problem 2]
+   > 3. [problem 3]
+   >
+   > **Defensible differentiation:**
+   > - [what only you can do — or "no defensible tier identified, see Honest Gaps"]
+   >
+   > **Gaps in the profile:** [count by severity — e.g., "1 high / 3 medium / 4 low"]
+   > Top high-severity gaps:
+   > - [gap 1]
+   > - [gap 2]
+   >
+   > **What's next:** Use this profile as the bedrock substrate for downstream tactical skills (multi-thread email, follow-up email, business case, demo prep). Refresh anytime by pasting new material (case studies, battlecards, win-loss reports) and asking me to update.
 
 ---
 
